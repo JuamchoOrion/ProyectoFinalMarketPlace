@@ -36,3 +36,27 @@
     -fx-background-color: #4c0f4e; /* Color más oscuro al presionar */
     -fx-opacity: 1; /* Aumenta la opacidad al presionar */
 }
+.mensaje-receptor {
+    -fx-background-color: #e1ffc7; /* Fondo claro para el receptor */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+    -fx-max-width: 300px; /* Ancho máximo */
+    -fx-wrap-text: true; /* Texto que se ajusta */
+}
+
+.mensaje-emisor {
+    -fx-background-color: #dcf8c6; /* Fondo claro para el emisor */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+    -fx-max-width: 300px; /* Ancho máximo */
+    -fx-wrap-text: true; /* Texto que se ajusta */
+}
+
+.mensaje-texto-receptor {
+    -fx-text-fill: #000; /* Color del texto del receptor */
+}
+
+.mensaje-texto-emisor {
+    -fx-text-fill: #000; /* Color del texto del emisor */
+}
+
