@@ -1,0 +1,21 @@
+.backgroundColor{
+    -fx-background-color: linear-gradient(to right, #0000ff, #b91949);
+}
+.label-style {
+    -fx-font-size: 12px; /* Tamaño de la fuente en píxeles */
+    -fx-font-family: Bahnschrift; /* Fuente */
+    -fx-text-fill: #ffffff;
+}
+.container{
+    -fx-background-color: #d23c5e;
+    -fx-opacity: 60%;
+}
+.titulo{
+    -fx-border-radius: 10px;
+    -fx-font-size: 24px; /* Tamaño de la fuente en píxeles */
+    -fx-font-family: Bahnschrift; /* Fuente */
+    -fx-text-fill: #ffffff;
+}
+.colorsolido{
+    -fx-background-color: #5d1569;
+}

@@ -12,6 +12,7 @@ public class Muro {
         comentarios = new ArrayList<>();
         productosPublicados = new ArrayList<>();
     }
+
     public List<String> getMensajes() {
         return mensajes;
     }

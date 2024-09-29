@@ -1,7 +1,7 @@
 package com.example.proyectofinalmarketplace;
 import com.example.proyectofinalmarketplace.exceptions.ListaContactosLlenaException;
 import com.example.proyectofinalmarketplace.exceptions.ProductoNoEncontradoException;
-import com.example.proyectofinalmarketplace.exceptions.ProductoYaExistenteException;
+import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException;
 import com.example.proyectofinalmarketplace.exceptions.ProductoInvalidoException;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,14 +76,14 @@ public class Vendedor extends Usuario {
         }
     }
     //crea un producto
-    public void agregarProducto(Producto producto) throws ProductoInvalidoException, ProductoYaExistenteException {
+    public void agregarProducto(Producto producto) throws ProductoInvalidoException, ProductoYaExisteException {
         if (producto == null || producto.getCodigo() == null || producto.getCodigo().isEmpty()) {
             Utilities.getInstance().logSevere("Intento de agregar un producto inválido.");
             throw new ProductoInvalidoException("El producto es inválido o el código es incorrecto.");
         }
         if (listaProductos.contains(producto)) {
             Utilities.getInstance().logWarning("El producto ya existe en la lista: " + producto.getCodigo());
-            throw new ProductoYaExistenteException("El producto ya existe en la lista.");
+            throw new ProductoYaExisteException("El producto ya existe en la lista.");
         }
         listaProductos.add(producto);
         Utilities.getInstance().logInfo("Producto agregado correctamente: " + producto.getNombre());
