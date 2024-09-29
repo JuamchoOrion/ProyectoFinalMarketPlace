@@ -19,3 +19,20 @@
 .colorsolido{
     -fx-background-color: #5d1569;
 }
+.button {
+    -fx-background-color: #5d1569; /* Color sólido */
+    -fx-text-fill: #ffffff; /* Color del texto */
+    -fx-font-size: 14px; /* Tamaño de la fuente */
+    -fx-font-family: Bahnschrift; /* Fuente */
+    -fx-opacity: 0.9; /* Opacidad */
+}
+
+.button:hover {
+    -fx-background-color: #b91949; /* Color sólido al pasar el mouse */
+    -fx-opacity: 1; /* Aumenta la opacidad al pasar el mouse */
+}
+
+.button:pressed {
+    -fx-background-color: #4c0f4e; /* Color más oscuro al presionar */
+    -fx-opacity: 1; /* Aumenta la opacidad al presionar */
+}

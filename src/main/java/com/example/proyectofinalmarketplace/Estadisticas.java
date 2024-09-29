@@ -47,7 +47,7 @@ public class Estadisticas {
         return resultado.toString();
     }
     public String topDiezProdLike(Marketplace marketplace) {
-        // Ordenar los productos por la cantidad de likes en orden descendente
+        // Ordenar los productos por la cantidad de likes en orden descendente// q no se note chat gpt - Juancho.
         List<Producto> productosOrdenados = new ArrayList<>(marketplace.getListaProductos());
 
         productosOrdenados.sort((p1, p2) -> Integer.compare(p2.getLikes(), p1.getLikes()));
