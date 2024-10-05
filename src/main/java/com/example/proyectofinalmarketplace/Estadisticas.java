@@ -7,65 +7,38 @@ import java.util.stream.Collectors;
 public class Estadisticas {
     private List<Vendedor> listaVendedores;
     private List<Producto> listaProductos;
+
     public Estadisticas() {
         listaVendedores = new ArrayList<Vendedor>();
         listaProductos = new ArrayList<Producto>();
     }
 
-    public String productosPorVendedor(List<Vendedor> vendedores) {
-        StringBuilder resultado = new StringBuilder("Productos publicados por cada vendedor:\n");
+    // Retorna una lista de productos publicados por un vendedor
+    public List<Producto> productosPorVendedor(Vendedor vendedor) {
+        List<Producto> productosPublicados = new ArrayList<>();
 
-        for (Vendedor vendedor : vendedores) {
-            int cantidadPublicados = 0;
-
-            for (Producto producto : vendedor.getListaProductos()) {
-                if (producto.getEstado() == Estado.PUBLICADO) {
-                    cantidadPublicados++;
-                }
+        for (Producto producto : vendedor.getListaProductos()) {
+            if (producto.getEstado() == Estado.PUBLICADO) {
+                productosPublicados.add(producto);
             }
-            resultado.append("Vendedor: ")
-                    .append(vendedor.getNombre())
-                    .append(", Productos publicados: ")
-                    .append(cantidadPublicados)
-                    .append("\n");
-        }
-        return resultado.toString();
-    }
-    public String contactosCadaVendedor(List<Vendedor> vendedores) {
-        StringBuilder resultado = new StringBuilder("Contactos por vendedor:\n");
-
-        for (Vendedor vendedor : vendedores) {
-            int cantidadContactos = vendedor.getListaContactos().size();
-
-            resultado.append("Vendedor: ")
-                    .append(vendedor.getNombre())
-                    .append(", Contactos: ")
-                    .append(cantidadContactos)
-                    .append("\n");
         }
 
-        return resultado.toString();
+        return productosPublicados;
     }
-    public String topDiezProdLike(Marketplace marketplace) {
-        // Ordenar los productos por la cantidad de likes en orden descendente// q no se note chat gpt - Juancho.
+
+    // Retorna una lista de contactos por vendedor
+    public List<Usuario> contactosCadaVendedor(Vendedor vendedor) {
+        return new ArrayList<>(vendedor.getListaContactos());
+    }
+
+    // Retorna una lista de los diez productos con más likes
+    public List<Producto> topDiezProdLike(Marketplace marketplace) {
         List<Producto> productosOrdenados = new ArrayList<>(marketplace.getListaProductos());
 
+        // Ordenar los productos por la cantidad de likes en orden descendente
         productosOrdenados.sort((p1, p2) -> Integer.compare(p2.getLikes(), p1.getLikes()));
 
         // Obtener los diez productos con más likes (si hay menos de 10, se toma la cantidad disponible)
-        List<Producto> topDiez = productosOrdenados.stream()
-                .limit(10)
-                .toList();
-
-        StringBuilder resultado = new StringBuilder("Top 10 productos con más likes:\n");
-        for (Producto producto : topDiez) {
-            resultado.append("Producto: ")
-                    .append(producto.getNombre())
-                    .append(", Likes: ")
-                    .append(producto.getLikes())
-                    .append("\n");
-        }
-
-        return resultado.toString();
+        return productosOrdenados.stream().limit(10).toList();
     }
 }
