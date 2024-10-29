@@ -3,30 +3,33 @@ package com.example.proyectofinalmarketplace;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Utilities {
 
     // Instancia única de la clase (para Singleton)
     private static Utilities instanciaUnica = null;
-    private String logFilePath;
+    String logFilePath = "C:/td/persistencia/log/log.txt";
 
 
     // Ruta base para los archivos de persistencia
     private static final String DIRECTORIO_BASE = "C:\\Users\\ramir\\OneDrive\\Documentos\\Universidad\\4to Semeestre\\ProyectoFinalMarketPlace\\src\\main\\java\\com\\example\\proyectofinalmarketplace\\Persistencia";
 
-    private Utilities(String logFilePath) {
-        this.logFilePath = logFilePath;
-    }
+
+
+
     // Método para obtener la única instancia de la clase (patrón Singleton)
-    public static Utilities getInstance(String logFilePath) {
+    public static Utilities getInstance() {
         if (instanciaUnica == null) {
             synchronized (Utilities.class) {
                 if (instanciaUnica == null) {
-                    instanciaUnica = new Utilities(logFilePath);
+                    instanciaUnica = new Utilities();
                 }
             }
         }
@@ -50,6 +53,7 @@ public class Utilities {
     }
 
     private void escribirLog(String mensaje) {
+        verificarOCrearDirectorio();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFilePath, true))) {
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             writer.write(timestamp + " - " + mensaje);
@@ -60,17 +64,23 @@ public class Utilities {
     }
 
     // Método para verificar o crear el directorio donde se guardarán los archivos
-    private void verificarOCrearDirectorio() throws IOException {
-        File directorio = new File(DIRECTORIO_BASE);
-        if (!directorio.exists()) {
-            if (directorio.mkdirs()) {
-                logInfo("Directorio creado: " + DIRECTORIO_BASE);
+    private void verificarOCrearDirectorio() {
+        File archivo = new File(logFilePath);
+        File directorio = archivo.getParentFile(); // Obtener el directorio padre del archivo
+
+        if (directorio != null) {
+            if (!directorio.exists()) {
+                // Intentar crear toda la estructura de directorios
+                if (directorio.mkdirs()) {
+                    System.out.println("Directorio creado: " + directorio.getAbsolutePath());
+                } else {
+                    System.err.println("No se pudo crear el directorio: " + directorio.getAbsolutePath());
+                }
             } else {
-                logSevere("No se pudo crear el directorio: " + DIRECTORIO_BASE);
-                throw new IOException("No se pudo crear el directorio: " + DIRECTORIO_BASE);
+                System.out.println("El directorio ya existe: " + directorio.getAbsolutePath());
             }
         } else {
-            logInfo("El directorio ya existe: " + DIRECTORIO_BASE);
+            System.err.println("No se pudo obtener el directorio para la ruta: " + logFilePath);
         }
     }
 

@@ -38,8 +38,7 @@ public class AdminController {
     private Button verVendButton;
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario admin = marketplace.getUsuarioActual();
-    String logFilePath = "C:\\td\\persistencia\\log\\log.txt";
-    Utilities logger = Utilities.getInstance(logFilePath);
+    Utilities logger = Utilities.getInstance();
 
     @FXML
     public void initialize() {

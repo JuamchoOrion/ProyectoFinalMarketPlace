@@ -27,8 +27,7 @@ public class EditarVendController {
 
     @FXML
     private ComboBox<Vendedor> comboBoxVendedor;
-    String logFilePath = "C:\\td\\persistencia\\log\\log.txt";
-    Utilities logger = Utilities.getInstance(logFilePath);
+    Utilities logger = Utilities.getInstance();
 
     @FXML
     public void initialize() {

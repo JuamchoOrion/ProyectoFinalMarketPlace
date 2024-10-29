@@ -17,8 +17,7 @@ public class Vendedor extends Usuario {
     private List<Vendedor> listaContactos;
     private List<Producto> listaProductos;
     private List<Vendedor> solicitudesPendientes = new ArrayList<>();
-    String logFilePath = "C:\\td\\persistencia\\log\\log.txt";
-    Utilities logger = Utilities.getInstance(logFilePath);
+    Utilities logger = Utilities.getInstance();
 
     public Vendedor(String nombre, String cedula, String descripcion, String contrasenia, String direccion) {
         super(nombre, contrasenia);

@@ -27,8 +27,7 @@ public class InicioController {
     private Button ingresoLogin;
 
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
-    String logFilePath = "C:\\td\\persistencia\\log\\log.txt";
-    Utilities logger = Utilities.getInstance(logFilePath);
+    Utilities logger = Utilities.getInstance();
 
     @FXML
     public void initialize() {

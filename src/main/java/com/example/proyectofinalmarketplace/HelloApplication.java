@@ -24,8 +24,7 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, ProductoYaExisteException, ProductoInvalidoException {
-        String logFilePath ="C:\\td\\persistencia\\log";
-        Utilities logger = Utilities.getInstance(logFilePath);
+        Utilities logger = Utilities.getInstance();
         marketplace = DatosIniciales.crearMarketplaceConDatosIniciales();
         MarketplaceManager.setMarketplaceInstance(marketplace);
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Inicio.fxml"));

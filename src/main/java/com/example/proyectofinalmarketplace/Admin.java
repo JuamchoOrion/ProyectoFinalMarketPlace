@@ -9,8 +9,7 @@ import java.util.Objects;
 
 public class Admin extends Usuario{
 
-    String logFilePath = "C:\\td\\persistencia\\log\\log.txt";
-    Utilities logger = Utilities.getInstance(logFilePath);
+    Utilities logger = Utilities.getInstance();
 
     // Constructor
     public Admin(String nombre,String contrasenia) {

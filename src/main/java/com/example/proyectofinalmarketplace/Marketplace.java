@@ -16,8 +16,7 @@ public class Marketplace {
     private List<Categoria> categorias;
     private Estadisticas estadistica;
     private static Usuario usuarioActual;
-    String logFilePath = "C:\\td\\persistencia\\log\\log.txt";
-    Utilities logger = Utilities.getInstance(logFilePath);
+    Utilities logger = Utilities.getInstance();
 
 
     public Marketplace(String nombre) {
