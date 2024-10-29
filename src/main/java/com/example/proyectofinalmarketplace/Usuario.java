@@ -2,7 +2,7 @@ package com.example.proyectofinalmarketplace;
 
 
 public abstract class Usuario {
-    private String nombre;
+    public String nombre;
     private String contrasenia;
 
 

@@ -3,6 +3,8 @@ package com.example.proyectofinalmarketplace;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -10,16 +12,21 @@ public class Utilities {
 
     // Instancia única de la clase (para Singleton)
     private static Utilities instanciaUnica = null;
+    private String logFilePath;
+
 
     // Ruta base para los archivos de persistencia
     private static final String DIRECTORIO_BASE = "C:\\Users\\ramir\\OneDrive\\Documentos\\Universidad\\4to Semeestre\\ProyectoFinalMarketPlace\\src\\main\\java\\com\\example\\proyectofinalmarketplace\\Persistencia";
 
+    private Utilities(String logFilePath) {
+        this.logFilePath = logFilePath;
+    }
     // Método para obtener la única instancia de la clase (patrón Singleton)
-    public static Utilities getInstance() {
+    public static Utilities getInstance(String logFilePath) {
         if (instanciaUnica == null) {
             synchronized (Utilities.class) {
                 if (instanciaUnica == null) {
-                    instanciaUnica = new Utilities();
+                    instanciaUnica = new Utilities(logFilePath);
                 }
             }
         }
@@ -30,16 +37,26 @@ public class Utilities {
     private static final Logger logger = Logger.getLogger(Utilities.class.getName());
 
     // Métodos para escribir en el log con diferentes niveles de severidad
-    public void logInfo(String message) {
-        logger.info(message);
+    public void logInfo(String mensaje) {
+        escribirLog("INFO: " + mensaje);
     }
 
-    public void logWarning(String message) {
-        logger.warning(message);
+    public void logWarning(String mensaje) {
+        escribirLog("WARNING: " + mensaje);
     }
 
-    public void logSevere(String message) {
-        logger.severe(message);
+    public void logSevere(String mensaje) {
+        escribirLog("ERROR: " + mensaje);
+    }
+
+    private void escribirLog(String mensaje) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFilePath, true))) {
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            writer.write(timestamp + " - " + mensaje);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el archivo de log: " + e.getMessage());
+        }
     }
 
     // Método para verificar o crear el directorio donde se guardarán los archivos

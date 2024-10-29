@@ -1,6 +1,9 @@
 package com.example.proyectofinalmarketplace;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Producto  {
     private String nombre;
@@ -11,8 +14,10 @@ public class Producto  {
     private Categoria categoria;
     private int likes;
     private Estado estado;
+    private List<Comentario> comentarios = new ArrayList<>();
 
-public Producto(String nombre, String codigo, String imagen, String precio, LocalDate fechaPublicacion, Categoria categoria, int likes,Estado estado) {
+
+    public Producto(String nombre, String codigo, String imagen, String precio, LocalDate fechaPublicacion, Categoria categoria, int likes,Estado estado) {
     this.nombre = nombre;
     this.codigo = codigo;
     this.imagen = imagen;
@@ -23,6 +28,17 @@ public Producto(String nombre, String codigo, String imagen, String precio, Loca
     this.estado =estado;
 
 }
+    public void incrementarMeGusta() {
+        likes++;
+    }
+    public void agregarComentario(Comentario comentario) {
+        comentarios.add(comentario);
+    }
+
+    public List<Comentario> getComentarios() {
+            return comentarios;
+    }
+
 public String getNombre() {
     return nombre;
 }

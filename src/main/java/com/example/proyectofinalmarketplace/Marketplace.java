@@ -1,7 +1,7 @@
 package com.example.proyectofinalmarketplace;
 
-import com.example.proyectofinalmarketplace.exceptions.ListaContactosLlenaException;
 import com.example.proyectofinalmarketplace.exceptions.UsuarioNoExisteException;
+import com.example.proyectofinalmarketplace.exceptions.UsuarioYaExisteException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,30 +9,93 @@ import java.util.List;
 
 public class Marketplace {
     private String nombre;
-    private Admin admin;
     private List<Producto> productos;
     private List<Usuario> usuarios;
+    private List<Admin> administradores;
+    private List<Vendedor> vendedores;
+    private List<Categoria> categorias;
     private Estadisticas estadistica;
+    private static Usuario usuarioActual;
+    String logFilePath = "C:\\td\\persistencia\\log\\log.txt";
+    Utilities logger = Utilities.getInstance(logFilePath);
+
 
     public Marketplace(String nombre) {
         this.nombre = nombre;
         this.usuarios = new ArrayList<Usuario>();
+        this.vendedores = new ArrayList<Vendedor>();
+        this.administradores = new ArrayList<Admin>();
+        this.productos = new ArrayList<>();
+        this.estadistica = new Estadisticas();
     }
 
-    public Object autenticacionUsuario(String nombre,String contrasenia) throws UsuarioNoExisteException {
 
-            for (Admin admin : admin.administradores) {
-                if (admin.getContrasenia().equals(contrasenia) && admin.getNombre().equals(nombre)) {
-                    return admin;
+
+
+    public Usuario autenticacionUsuario(String nombre, String contrasenia) throws UsuarioNoExisteException {
+        for (Admin admin : administradores) {
+            if (admin.getNombre().equals(nombre) && admin.getContrasenia().equals(contrasenia)) {
+                setUsuarioActual(admin);
+                logger.logInfo("El admin "+ admin.getNombre()+" ha ingresado a la app");
+                return admin;
+            }
+        }
+        for (Vendedor vendedor : vendedores) {
+            if (vendedor.getNombre().equals(nombre) && vendedor.getContrasenia().equals(contrasenia)) {
+                setUsuarioActual(vendedor);
+                logger.logInfo("El vendedor "+ vendedor.getNombre()+" ha ingresado a la app");
+                return vendedor;
+            }
+        }
+        logger.logWarning("Intento de autenticación fallido para el usuario: " + nombre);
+        throw new UsuarioNoExisteException("El usuario no existe o las credenciales son incorrectas.");
+    }
+    public List<Producto> topDiezProdLike() {
+        List<Producto> productosOrdenados = new ArrayList<>(productos);
+
+        // Ordenar los productos por la cantidad de likes en orden descendente
+        productosOrdenados.sort((p1, p2) -> Integer.compare(p2.getLikes(), p1.getLikes()));
+
+        // Obtener los diez productos con más likes (si hay menos de 10, se toma la cantidad disponible)
+        return productosOrdenados.stream().limit(10).toList();
+    }
+    // Método que retorna una lista con el nombre del vendedor y la cantidad de productos publicados
+    public List<String> productosPorVendedor() {
+        List<String> productosPorVendedor = new ArrayList<>();
+
+        for (Vendedor vendedor : vendedores) {
+            int cantidadProductosPublicados = 0;
+
+            for (Producto producto : vendedor.getListaProductos()) {
+                if (producto.getEstado() == Estado.PUBLICADO) {
+                    cantidadProductosPublicados++;
                 }
             }
-            for (Vendedor vendedor : admin.vendedores) {
-                if (vendedor.getContrasenia().equals(contrasenia) && vendedor.getNombre().equals(nombre)) {
-                    return vendedor;
-                }
-            }
-            Utilities.getInstance().logWarning("El usuario no existe.");
-            throw new UsuarioNoExisteException("El");
+
+            productosPorVendedor.add(vendedor.getNombre() + ": " + cantidadProductosPublicados + " productos publicados");
+        }
+
+        return productosPorVendedor;
+    }
+
+    // Método que retorna una lista con el nombre del vendedor y la cantidad de contactos
+    public List<String> contactosCadaVendedor() {
+        List<String> contactosPorVendedor = new ArrayList<>();
+
+        for (Vendedor vendedor : vendedores) {
+            int cantidadContactos = vendedor.getListaContactos().size();
+            contactosPorVendedor.add(vendedor.getNombre() + ": " + cantidadContactos + " contactos");
+        }
+
+        return contactosPorVendedor;
+    }
+
+    public static void setUsuarioActual(Usuario usuario) {
+        usuarioActual = usuario;
+    }
+
+    public static Usuario getUsuarioActual() {
+        return usuarioActual;
     }
 
     public String getNombre() {
@@ -44,8 +107,52 @@ public class Marketplace {
     public List<Producto> getListaProductos() {
         return productos;
     }
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
+    public void setUsuarios(List<Usuario> usuarios) {this.usuarios = usuarios;
     }
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+    public List<Vendedor> getListaVendedores() {
+        return vendedores;
+    }
+    public List<Categoria> getListaCategorias() {
+        return categorias;
+    }
+    public void setVendedores(List<Vendedor> vendedores) {
+        this.vendedores = vendedores;
+    }
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+    public List<Admin> getListaAdministradores() {
+        return administradores;
+    }
+    public void setAdministradores(List<Admin> administradores) {
+        this.administradores= administradores;
+    }
+    public void aniadirVendedor(Vendedor vendedor) throws UsuarioYaExisteException {
+        // Verifica que no exista un vendedor con la misma contraseña
+        for (Vendedor v : vendedores) {
+            if (v.getContrasenia().equals(vendedor.getContrasenia())) {
+                logger.logWarning("Intento de creacion de cuenta con contraseña existente ");
+                throw new UsuarioYaExisteException("Intente con otra contraseña");
+                 // Salir del método sin añadir el vendedor
+            }
+        }
+        // Si no existe un vendedor con la misma contraseña, lo añade
+        vendedores.add(vendedor);
+        usuarios.add(vendedor);
+        logger.logInfo("Vendedor "+ vendedor.getNombre()+ " añadido satisfactoriamente");
+
+    }
+
+    public void aniadirAdmin(Admin admin){
+        administradores.add(admin);
+        usuarios.add(admin);
+    }
+
 
 }

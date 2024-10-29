@@ -1,9 +1,15 @@
 package com.example.proyectofinalmarketplace;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +25,37 @@ public class PerfilController {
     @FXML
     private Label priceProduct1, priceProduct2, priceProduct3;
 
+    @FXML
+    private Button AggProducto;
+
     private Vendedor vendedor;
 
     @FXML
     public void initialize() {
+        AggProducto.setOnAction(event -> {
+            try {
+                crearProducto();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         cargarProductosQuemados(); // Llama a la función que inicializa los productos
         cargarProductos();
+
+    }
+    private void crearProducto() throws IOException {
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) AggProducto.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     // Método para crear productos "quemados" y asignarlos al vendedor
     private void cargarProductosQuemados() {
-        vendedor = new Vendedor("Juan Pérez", "Vendedor confiable", "contrasenia123", "Calle Falsa 123");
+        vendedor = new Vendedor("Juan Pérez","3" ,"Vendedor confiable", "contrasenia123", "Calle Falsa 123");
 
         // Crear una lista de productos quemados con Estado y Categoria en null
         List<Producto> productosQuemados = new ArrayList<>();
@@ -37,7 +63,7 @@ public class PerfilController {
         productosQuemados.add(new Producto(
                 "Camiseta Deportiva",
                 "001",
-                "/com/example/proyectofinalmarketplace/logo.png", // Ruta de imagen dentro del paquete resources
+                "/imagenes/logo.png", // Ruta de imagen dentro del paquete resources
                 "25.99",
                 LocalDate.now().minusDays(10),
                 null, // Categoria nula
@@ -47,7 +73,7 @@ public class PerfilController {
         productosQuemados.add(new Producto(
                 "Zapatos Running",
                 "002",
-                "/com/example/proyectofinalmarketplace/logo.png", // Ruta de imagen dentro del paquete resources
+                "/imagenes/logo.png", // Ruta de imagen dentro del paquete resources
                 "45.00",
                 LocalDate.now().minusDays(5),
                 null, // Categoria nula
@@ -57,7 +83,7 @@ public class PerfilController {
         productosQuemados.add(new Producto(
                 "Mochila Escolar",
                 "003",
-                "/com/example/proyectofinalmarketplace/logo.png", // Ruta de imagen dentro del paquete resources
+                "/imagenes/logo.png", // Ruta de imagen dentro del paquete resources
                 "30.50",
                 LocalDate.now().minusDays(2),
                 null, // Categoria nula
