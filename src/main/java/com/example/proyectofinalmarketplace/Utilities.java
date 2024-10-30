@@ -12,8 +12,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class Utilities implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class Utilities  { ;
     // Instancia única de la clase (para Singleton)
     private static Utilities instanciaUnica;
     String logFilePath = "C:/td/persistencia/log/log.txt";
@@ -227,7 +226,6 @@ public class Utilities implements Serializable{
 
 
 
-    // metodo para generar el archivo de Administradores
     public <T extends Serializable> void generarArchivoDat(List<?> list, String nombreArchivo) throws IOException {
         if (list != null) {
             // Serializa en la ruta original
@@ -236,7 +234,7 @@ public class Utilities implements Serializable{
                 throw new IOException("Error al serializar en la ruta principal");
             }
 
-            // Genera el nombre de archivo con la fecha actual
+            // Genera el nombre de archivo de respaldo una sola vez por ejecución
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
             String fechaActual = LocalDateTime.now().format(formatter);
             String nombreArchivoRespaldo = nombreArchivo.replace(".dat", "_" + fechaActual + ".dat");

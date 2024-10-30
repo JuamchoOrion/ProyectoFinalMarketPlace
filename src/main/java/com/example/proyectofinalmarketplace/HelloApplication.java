@@ -13,7 +13,7 @@ import java.util.List;
 
 public class HelloApplication extends Application {
     private static final int WIDTH = 600;   // Ancho estándar
-    private static final int HEIGHT = 400;   // Alto estándar
+    private static final int HEIGHT = 400;  // Alto estándar
     private Marketplace marketplace;
 
     public static double getWidth() {
@@ -32,7 +32,7 @@ public class HelloApplication extends Application {
         HiloDeserializacion<Admin> hiloAdmins = new HiloDeserializacion<>("C:\\td\\persistencia\\administradores.dat");
         HiloDeserializacion<Vendedor> hiloVendedores = new HiloDeserializacion<>("C:\\td\\persistencia\\vendedores.dat");
         HiloDeserializacion<Producto> hiloProductos = new HiloDeserializacion<>("C:\\td\\persistencia\\productos.dat");
-        HiloDeserializacion<Categoria> hiloCategorias = new HiloDeserializacion<>("C:\td\\persistencia\\categorias.dat");
+        HiloDeserializacion<Categoria> hiloCategorias = new HiloDeserializacion<>("C:\\td\\persistencia\\categorias.dat");
         HiloDeserializacion<Usuario> hiloUsuarios = new HiloDeserializacion<>("C:\\td\\persistencia\\usuarios.dat");
 
         // Iniciar hilos
@@ -81,10 +81,7 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
 
         // Evento para manejar el cierre de la aplicación
-        stage.setOnCloseRequest(event -> {
-
-            serializarDatos(marketplace);
-        });
+        stage.setOnCloseRequest(event -> serializarDatos(marketplace));
 
         stage.show();
     }
@@ -96,6 +93,8 @@ public class HelloApplication extends Application {
         HiloSerializacion<Producto> productoHiloSerializacion = new HiloSerializacion<>(marketplace.getProductos(), "productos.dat");
         HiloSerializacion<Categoria> categoriaHiloSerializacion = new HiloSerializacion<>(marketplace.getCategorias(), "categorias.dat");
         HiloSerializacion<Usuario> usuarioHiloSerializacion = new HiloSerializacion<>(marketplace.getUsuarios(), "usuarios.dat");
+
+        // Guardar en archivos TXT
         try {
             utilities.guardarListaTXT(marketplace.getAdministradores(), "administradores.txt");
             utilities.guardarListaTXT(marketplace.getVendedores(), "vendedores.txt");
@@ -105,11 +104,23 @@ public class HelloApplication extends Application {
             e.printStackTrace();
         }
 
+        // Iniciar hilos de serialización
         hiloSerializacionAdmin.start();
         hiloSerializacionVendedor.start();
         productoHiloSerializacion.start();
         categoriaHiloSerializacion.start();
         usuarioHiloSerializacion.start();
+
+        // Esperar a que los hilos terminen
+        try {
+            hiloSerializacionAdmin.join();
+            hiloSerializacionVendedor.join();
+            productoHiloSerializacion.join();
+            categoriaHiloSerializacion.join();
+            usuarioHiloSerializacion.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

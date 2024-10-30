@@ -4,20 +4,28 @@ import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException
 import com.example.proyectofinalmarketplace.exceptions.VendedorNoEncontradoException;
 import com.example.proyectofinalmarketplace.exceptions.UsuarioYaExisteException;
 
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Admin extends Usuario implements Serializable {
 
-    private static final long serialVersionUID = 1L; // Asegúrate de actualizar esto si cambias la clase
+    private static final long serialVersionUID = 1L;
 
-    Utilities logger; // Si Utilities no es serializable
+    // Declaramos logger como transient
+    private transient Utilities logger;
 
     // Constructor
     public Admin(String nombre, String contrasenia) {
         super(nombre, contrasenia);
-        this.logger = Utilities.getInstance();
+        this.logger = Utilities.getInstance(); // Inicializamos el logger en el constructor
+    }
+
+    // Método especial para la deserialización
+    private void readObject(ObjectInputStream ois) throws Exception {
+        ois.defaultReadObject(); // Llamamos primero a la deserialización predeterminada
+        logger = Utilities.getInstance(); // Reinicializamos el logger después de la deserialización
     }
 
     public void addVendedor(Marketplace marketplace, Vendedor vendedor) throws UsuarioYaExisteException {
@@ -27,7 +35,6 @@ public class Admin extends Usuario implements Serializable {
             logger.logInfo("El admin " + marketplace.getUsuarioActual().getNombre() + " creó el usuario " + vendedor.getNombre() + " satisfactoriamente");
             return;
         }
-
         logger.logInfo("El admin " + marketplace.getUsuarioActual().getNombre() + " intentó crear un vendedor, pero ya existe");
         throw new UsuarioYaExisteException("El vendedor ya existe");
     }
@@ -65,15 +72,11 @@ public class Admin extends Usuario implements Serializable {
     }
 
     public void editarVendedor(Marketplace marketplace, Vendedor vendedor, String newNombre, String newDescripcion, String newContrasenia, String newDireccion, String newCedula) throws UsuarioYaExisteException {
-        // Verificar si otro vendedor ya tiene el nuevo nombre o cédula
         for (Vendedor v : marketplace.getListaVendedores()) {
-            // Verificamos si hay un vendedor diferente que tiene el mismo nombre o cédula
             if (!v.equals(vendedor) && (v.getNombre().equals(newNombre) || v.getCedula().equals(newCedula))) {
                 throw new UsuarioYaExisteException("Ya existe un vendedor con el mismo nombre o cédula.");
             }
         }
-
-        // Si no se lanza la excepción, procede a editar el vendedor
         vendedor.setNombre(newNombre);
         vendedor.setDescripcion(newDescripcion);
         vendedor.setDireccion(newDireccion);
@@ -91,8 +94,6 @@ public class Admin extends Usuario implements Serializable {
                 throw new ProductoYaExisteException("Ya existe un producto con este código");
             }
         }
-
-        // Si no se lanza la excepción, procede a editar el producto
         producto.setNombre(newNombre);
         producto.setCodigo(newCodigo);
         producto.setImagen(newImagen);
