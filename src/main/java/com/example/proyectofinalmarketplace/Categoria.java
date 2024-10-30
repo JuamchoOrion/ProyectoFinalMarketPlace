@@ -1,6 +1,8 @@
 package com.example.proyectofinalmarketplace;
 
-public class Categoria {
+import java.io.Serializable;
+
+public class Categoria implements Serializable {
     private String nombre;
     private String descripcion;
 

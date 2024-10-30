@@ -1,4 +1,5 @@
 package com.example.proyectofinalmarketplace;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +14,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +26,9 @@ public class MuroController {
     private TextField inputBuscar;
 
     @FXML
+    private Button cerrarButton;
+
+    @FXML
     private Button chat;
 
     @FXML
@@ -36,34 +39,46 @@ public class MuroController {
 
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario usuarioActual = marketplace.getUsuarioActual();
-
+    Utilities logger = Utilities.getInstance();
 
     public void initialize() {
         chat.setOnAction(event -> {
-                    try {chatVista();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-        perfil.setOnAction(event -> {
-            try {perfilVista();
+            try {
+                chatVista();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        cerrarButton.setOnAction(event -> {
+            try {
+                cerrarSesion();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
 
-
-        //List<Producto> productos = marketplace.getListaProductos();  
-        //System.out.println(productos);
+        perfil.setOnAction(event -> {
+            try {
+                perfilVista();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         List<Producto> productos = new ArrayList<>();
 
         // Agregar productos del vendedor actual
-        productos.addAll(((Vendedor)usuarioActual).getListaProductos());
+        if (usuarioActual instanceof Vendedor) {
+            productos.addAll(((Vendedor) usuarioActual).getListaProductos());
+            logger.logInfo("Productos del vendedor " + ((Vendedor) usuarioActual).getNombre() + " añadidos a la lista.");
+        } else {
+            logger.logWarning("El usuario actual no es un vendedor.");
+        }
 
         // Agregar productos de la lista de amigos del vendedor principal
-        for (Vendedor amigo : ((Vendedor)usuarioActual).getListaContactos()) {
+        for (Vendedor amigo : ((Vendedor) usuarioActual).getListaContactos()) {
             productos.addAll(amigo.getListaProductos());
+            logger.logInfo("Productos del amigo " + amigo.getNombre() + " añadidos a la lista.");
         }
 
         int column = 0;
@@ -79,30 +94,44 @@ public class MuroController {
             }
         }
     }
+
     private void chatVista() throws IOException {
-        FXMLLoader loader;
-        Scene scene;
-        loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
-        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        logger.logInfo("El vendedor " + ((Vendedor) usuarioActual).getNombre() + " está accediendo a la vista de chat.");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
         Stage stage = (Stage) chat.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-
     }
+
     private void perfilVista() throws IOException {
-        FXMLLoader loader;
-        Scene scene;
-        loader = new FXMLLoader(getClass().getResource("Perfil.fxml"));
-        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
-        Stage stage = (Stage) chat.getScene().getWindow();
+        logger.logInfo("El vendedor " + ((Vendedor) usuarioActual).getNombre() + " está accediendo a la vista de perfil.");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Perfil.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) perfil.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-
     }
-    public void setMarketplace(Marketplace marketplace) {
-        this.marketplace = marketplace;}
 
-    //"/com/example/proyectofinalmarketplace/Imagenes/logo.png"
+    private void cerrarSesion() throws IOException {
+        if (usuarioActual instanceof Vendedor) {
+            logger.logInfo("El vendedor " + ((Vendedor) usuarioActual).getNombre() + " está cerrando sesión y navegando a Inicio.fxml.");
+        } else {
+            logger.logWarning("El usuario actual no es un vendedor al cerrar sesión.");
+        }
+
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) cerrarButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void setMarketplace(Marketplace marketplace) {
+        this.marketplace = marketplace;
+    }
 
     // Crear la vista de un producto en el GridPane
     private VBox crearVistaProducto(Producto producto) {
@@ -112,7 +141,6 @@ public class MuroController {
 
         // Imagen del producto
         ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(producto.getImagen())));
-
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
 
@@ -142,12 +170,9 @@ public class MuroController {
 
         // Hacer clic en el producto
         productBox.setOnMouseClicked(event -> {
-            // Aquí puedes manejar el evento de clic (sin controlador)
-            System.out.println("Clic en: " + producto.getNombre()); // Simple mensaje en la consola
-            // Aquí puedes abrir otra interfaz si lo deseas
+            logger.logInfo("Clic en el producto: " + producto.getNombre());
         });
+
         return productBox;
     }
-
-
 }

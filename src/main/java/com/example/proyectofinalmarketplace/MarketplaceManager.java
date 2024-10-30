@@ -1,9 +1,11 @@
 package com.example.proyectofinalmarketplace;
 
-public class MarketplaceManager {
+import java.io.Serializable;
+
+public class MarketplaceManager implements Serializable {
     private static Marketplace marketplaceInstance;
 
-    private MarketplaceManager() {
+    private MarketplaceManager () {
         // Constructor privado para prevenir la instanciación
     }
 

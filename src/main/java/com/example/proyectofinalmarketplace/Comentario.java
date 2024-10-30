@@ -1,8 +1,9 @@
 package com.example.proyectofinalmarketplace;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Comentario {
+public class Comentario implements Serializable {
     private String texto;
     private Vendedor autor;
     private LocalDate fecha;

@@ -3,6 +3,7 @@ package com.example.proyectofinalmarketplace;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +20,8 @@ public class Utilities {
 
 
     // Ruta base para los archivos de persistencia
-    private static final String DIRECTORIO_BASE = "C:\\Users\\ramir\\OneDrive\\Documentos\\Universidad\\4to Semeestre\\ProyectoFinalMarketPlace\\src\\main\\java\\com\\example\\proyectofinalmarketplace\\Persistencia";
+    private static final String DIRECTORIO_BASE = "C:\\td\\persistencia";
+    private static final String direccionRespaldo = "C:\td\\persistencia\\respaldo";
 
 
 
@@ -108,10 +110,7 @@ public class Utilities {
         }
     }
 
-    // Método para generar un archivo de administradores
-    public void generarArchivoAdmin(List<?> administradores) throws IOException {
-        escribirListaEnArchivo("administradores.txt", administradores);
-    }
+
 
     // Método para serializar un objeto a un archivo
     public boolean serializarObjeto(String direccionArchivo, Serializable objeto) {
@@ -173,21 +172,79 @@ public class Utilities {
     // Método genérico para serializar cualquier lista a un archivo XML
     public <T extends Serializable> void generarArchivoXML(List<T> lista, String nombreArchivo) throws IOException {
         if (lista != null) {
-            boolean result = serializarObjetoXML(DIRECTORIO_BASE + nombreArchivo, (Serializable) lista);
-            if (!result) {
-                throw new IOException("Error al serializar la lista a XML");
+            // Serializar en la primera dirección
+            boolean result1 = serializarObjetoXML(DIRECTORIO_BASE + nombreArchivo, (Serializable) lista);
+
+            // Obtener la fecha actual y formatearla
+            LocalDateTime fechaActual = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+            String fechaFormateada = fechaActual.format(formatter);
+
+            // Generar el nombre de archivo de respaldo con la fecha
+            String nombreArchivoRespaldo = nombreArchivo.replace(".xml", "") + "_" + fechaFormateada + ".xml";
+
+            // Serializar en la segunda dirección de respaldo
+            boolean result2 = serializarObjetoXML(direccionRespaldo + nombreArchivoRespaldo, (Serializable) lista);
+
+            // Verificar resultados de ambas serializaciones
+            if (!result1 || !result2) {
+                throw new IOException("Error al serializar la lista a XML en una o ambas ubicaciones");
             }
         } else {
             throw new IllegalArgumentException("La lista no puede ser nula");
         }
     }
+    public <T> void guardarListaTXT(List<T> lista, String nombreArchivo) throws IOException {
+        if (lista == null || lista.isEmpty()) {
+            throw new IllegalArgumentException("La lista no puede ser nula o vacía");
+        }
+
+        // Ruta fija para guardar los archivos
+        String rutaBase = "C:/td/persistencia/archivos/";
+
+        // Combinar la ruta fija y el nombre de archivo especificado
+        String rutaCompleta = rutaBase + nombreArchivo;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaCompleta))) {
+            for (T objeto : lista) {
+                // Usa reflection para obtener y escribir los atributos de cada objeto
+                StringBuilder linea = new StringBuilder();
+                Field[] fields = objeto.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    field.setAccessible(true); // Permite acceder a atributos privados
+                    Object valor = field.get(objeto); // Obtiene el valor del atributo
+                    linea.append(field.getName()).append(": ").append(valor).append(" | ");
+                }
+                writer.write(linea.toString());
+                writer.newLine();
+            }
+            logInfo("Datos guardados en " + rutaCompleta + " con éxito.");
+        } catch (IOException | IllegalAccessException e) {
+            logSevere("Error al guardar datos en archivo .txt: " + e.getMessage());
+            throw new IOException("Error al guardar datos en archivo .txt", e);
+        }
+    }
+
+
 
     // metodo para generar el archivo de Administradores
     public <T extends Serializable> void generarArchivoDat(List<?> list, String nombreArchivo) throws IOException {
-        if (  list!= null) {
+        if (list != null) {
+            // Serializa en la ruta original
             boolean result = serializarObjeto(DIRECTORIO_BASE + nombreArchivo, (Serializable) list);
             if (!result) {
-                throw new IOException("Error al serializar ");
+                throw new IOException("Error al serializar en la ruta principal");
+            }
+
+            // Genera el nombre de archivo con la fecha actual
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+            String fechaActual = LocalDateTime.now().format(formatter);
+            String nombreArchivoRespaldo = nombreArchivo.replace(".dat", "_" + fechaActual + ".dat");
+
+            // Serializa en la ruta de respaldo
+            boolean resultRespaldo = serializarObjeto(direccionRespaldo + nombreArchivoRespaldo, (Serializable) list);
+            if (!resultRespaldo) {
+                throw new IOException("Error al serializar en la ruta de respaldo");
             }
         } else {
             throw new IllegalArgumentException("La lista no puede ser nula");

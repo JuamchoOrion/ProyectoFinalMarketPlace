@@ -7,11 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PerfilController {
@@ -26,24 +25,43 @@ public class PerfilController {
     private Label priceProduct1, priceProduct2, priceProduct3;
 
     @FXML
+    private Label nombreUsuario;  // Etiqueta para mostrar el nombre de usuario
+
+    @FXML
+    private VBox topProductosVBox; // VBox para los 10 productos más vendidos
+
+    @FXML
     private Button AggProducto;
 
+    private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
+    private Usuario usuario = marketplace.getUsuarioActual();
     private Vendedor vendedor;
+    Utilities logger = Utilities.getInstance(); // Instancia del logger
 
     @FXML
     public void initialize() {
+        if (usuario instanceof Vendedor) {
+            vendedor = (Vendedor) usuario;
+            nombreUsuario.setText("ID: " + vendedor.getCedula() + ", Nombre: " + vendedor.getNombre()); // Configura el nombre de usuario
+            logger.logInfo("Perfil cargado para el vendedor: " + vendedor.getNombre());
+            cargarProductos();
+            mostrarTopProductos();
+        } else {
+            logger.logWarning("El usuario actual no es un vendedor.");
+        }
+
         AggProducto.setOnAction(event -> {
             try {
                 crearProducto();
             } catch (IOException e) {
+                logger.logWarning("Error al intentar crear un producto: " + e.getMessage());
                 throw new RuntimeException(e);
             }
         });
-        cargarProductosQuemados(); // Llama a la función que inicializa los productos
-        cargarProductos();
-
     }
+
     private void crearProducto() throws IOException {
+        logger.logInfo("El vendedor " + vendedor.getNombre() + " está intentando agregar un nuevo producto.");
         FXMLLoader loader;
         Scene scene;
         loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
@@ -51,47 +69,6 @@ public class PerfilController {
         Stage stage = (Stage) AggProducto.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-    }
-
-    // Método para crear productos "quemados" y asignarlos al vendedor
-    private void cargarProductosQuemados() {
-        vendedor = new Vendedor("Juan Pérez","3" ,"Vendedor confiable", "contrasenia123", "Calle Falsa 123");
-
-        // Crear una lista de productos quemados con Estado y Categoria en null
-        List<Producto> productosQuemados = new ArrayList<>();
-
-        productosQuemados.add(new Producto(
-                "Camiseta Deportiva",
-                "001",
-                "/imagenes/logo.png", // Ruta de imagen dentro del paquete resources
-                "25.99",
-                LocalDate.now().minusDays(10),
-                null, // Categoria nula
-                150,
-                null)); // Estado nulo
-
-        productosQuemados.add(new Producto(
-                "Zapatos Running",
-                "002",
-                "/imagenes/logo.png", // Ruta de imagen dentro del paquete resources
-                "45.00",
-                LocalDate.now().minusDays(5),
-                null, // Categoria nula
-                200,
-                null)); // Estado nulo
-
-        productosQuemados.add(new Producto(
-                "Mochila Escolar",
-                "003",
-                "/imagenes/logo.png", // Ruta de imagen dentro del paquete resources
-                "30.50",
-                LocalDate.now().minusDays(2),
-                null, // Categoria nula
-                120,
-                null)); // Estado nulo
-
-        // Asignar la lista de productos al vendedor
-        vendedor.getListaProductos().addAll(productosQuemados);
     }
 
     private void cargarProductos() {
@@ -105,16 +82,30 @@ public class PerfilController {
             nameProduct1.setText(producto1.getNombre());
             priceProduct1.setText("Precio: €" + producto1.getPrecio());
             imageProduct1.setImage(new Image(getClass().getResourceAsStream(producto1.getImagen())));
+            logger.logInfo("Producto 1 cargado en el perfil: " + producto1.getNombre());
 
             // Producto 2
             nameProduct2.setText(producto2.getNombre());
             priceProduct2.setText("Precio: €" + producto2.getPrecio());
             imageProduct2.setImage(new Image(getClass().getResourceAsStream(producto2.getImagen())));
+            logger.logInfo("Producto 2 cargado en el perfil: " + producto2.getNombre());
 
             // Producto 3
             nameProduct3.setText(producto3.getNombre());
             priceProduct3.setText("Precio: €" + producto3.getPrecio());
             imageProduct3.setImage(new Image(getClass().getResourceAsStream(producto3.getImagen())));
+            logger.logInfo("Producto 3 cargado en el perfil: " + producto3.getNombre());
+        } else {
+            logger.logWarning("No hay suficientes productos para mostrar. Productos disponibles: " + vendedor.getListaProductos().size());
+        }
+    }
+
+    private void mostrarTopProductos() {
+        List<Producto> productosTop = vendedor.getListaProductos();
+        for (Producto producto : productosTop) {
+            Label productoLabel = new Label(producto.getNombre());
+            topProductosVBox.getChildren().add(productoLabel);
+            logger.logInfo("Producto añadido a la lista de top productos: " + producto.getNombre());
         }
     }
 }

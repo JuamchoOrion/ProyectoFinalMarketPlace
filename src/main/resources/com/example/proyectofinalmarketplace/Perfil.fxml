@@ -16,21 +16,29 @@
             <children>
                 <Label layoutX="24.0" layoutY="14.0" styleClass="titulo" text="ESTADISTICAS" />
                 <Label layoutX="24.0" layoutY="64.0" styleClass="label-style" text="TOP 10 PRODUCTOS" />
+
+                <!-- VBox para mostrar los nombres de los 10 productos más vendidos -->
+                <VBox fx:id="topProductosVBox" layoutX="24.0" layoutY="100.0" spacing="5.0" />
+
                 <Label layoutX="24.0" layoutY="207.0" styleClass="label-style" text="Contactos" />
-            <Button fx:id="AggProducto" layoutX="24.0" layoutY="282.0" mnemonicParsing="false" stylesheets="@Style.css" text="Agregar Producto" />
-            <Button layoutX="24.0" layoutY="308.0" mnemonicParsing="false" stylesheets="@Style.css" text="Eliminar Producto" />
+                <Button fx:id="AggProducto" layoutX="24.0" layoutY="282.0" mnemonicParsing="false" stylesheets="@Style.css" text="Agregar Producto" />
+                <Button layoutX="24.0" layoutY="308.0" mnemonicParsing="false" stylesheets="@Style.css" text="Eliminar Producto" />
             </children>
         </AnchorPane>
+
+        <!-- Barra superior con opciones de navegación y búsqueda -->
         <AnchorPane layoutY="-1.0" prefHeight="56.0" prefWidth="600.0" styleClass="colorsolido">
             <children>
                 <Button layoutX="112.0" layoutY="15.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
                 <TextField layoutX="344.0" layoutY="17.0" />
                 <Label layoutX="241.0" layoutY="21.0" styleClass="label-style" text="Buscar Usuario" />
                 <Button layoutX="34.0" layoutY="16.0" mnemonicParsing="false" stylesheets="@Style.css" text="Home" />
-            <Button layoutX="507.0" layoutY="17.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
+                <Button layoutX="507.0" layoutY="17.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
             </children>
         </AnchorPane>
-        <Label layoutX="316.0" layoutY="63.0" styleClass="titulo" text="NOMBRE DE USUARIO" />
+
+        <!-- Nombre de usuario -->
+        <Label fx:id="nombreUsuario" layoutX="316.0" layoutY="63.0" styleClass="titulo" text="NOMBRE DE USUARIO" />
 
         <!-- HBox para mostrar los productos en fila -->
         <HBox layoutX="230.0" layoutY="100.0" spacing="20">
@@ -58,22 +66,19 @@
         <ScrollPane hbarPolicy="NEVER" layoutX="230.0" layoutY="250.0" prefHeight="120.0" prefWidth="300.0" styleClass="container" stylesheets="@Style.css" vbarPolicy="AS_NEEDED">
             <content>
                 <VBox fx:id="vboxComentarios" alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
-                    <!-- Comentario 1 (datos quemados) -->
+                    <!-- Comentarios de ejemplo -->
                     <HBox spacing="10">
                         <Label style="-fx-font-weight: bold;" text="Usuario 1: " />
                         <Label text="Excelente vendedor, todo llegó a tiempo." />
                     </HBox>
-                    <!-- Comentario 2 (datos quemados) -->
                     <HBox spacing="10">
                         <Label style="-fx-font-weight: bold;" text="Usuario 2: " />
                         <Label text="El producto no cumplió con mis expectativas." />
                     </HBox>
-                    <!-- Comentario 3 (datos quemados) -->
                     <HBox spacing="10">
                         <Label style="-fx-font-weight: bold;" text="Usuario 3: " />
                         <Label text="Muy buen servicio, repetiría sin dudar." />
                     </HBox>
-                    <!-- Comentario 4 (datos quemados) -->
                     <HBox spacing="10">
                         <Label style="-fx-font-weight: bold;" text="Usuario 4: " />
                         <Label text="Comunicación rápida y efectiva." />

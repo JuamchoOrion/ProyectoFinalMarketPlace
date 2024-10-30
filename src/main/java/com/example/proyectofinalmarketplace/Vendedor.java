@@ -3,21 +3,24 @@ import com.example.proyectofinalmarketplace.exceptions.ListaContactosLlenaExcept
 import com.example.proyectofinalmarketplace.exceptions.ProductoNoEncontradoException;
 import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException;
 import com.example.proyectofinalmarketplace.exceptions.ProductoInvalidoException;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import java.time.LocalDate;
 
-public class Vendedor extends Usuario {
+public class Vendedor extends Usuario implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     private String cedula;
     private String descripcion;
     private String direccion;
     private List<Vendedor> listaContactos;
     private List<Producto> listaProductos;
     private List<Vendedor> solicitudesPendientes = new ArrayList<>();
-    Utilities logger = Utilities.getInstance();
+    transient  Utilities logger = Utilities.getInstance();
 
     public Vendedor(String nombre, String cedula, String descripcion, String contrasenia, String direccion) {
         super(nombre, contrasenia);

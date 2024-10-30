@@ -21,8 +21,6 @@ public class DatosIniciales {
         List<Categoria> categorias = new ArrayList<>();
         Marketplace marketplace = new Marketplace("JavaDictos");
 
-
-
         // Administradores existentes
         Admin a1 = new Admin("a", "a");
         usuarios.add(a1);
@@ -36,36 +34,44 @@ public class DatosIniciales {
         usuarios.add(a3);
         administradores.add(a3);
 
-        Vendedor v1 = new Vendedor("b", "1","as","b","asdas");
+        // Vendedores existentes
+        Vendedor v1 = new Vendedor("b", "1", "as", "b", "asdas");
+        Vendedor v2 = new Vendedor("c", "1", "as", "c", "asdas");
         usuarios.add(v1);
+        usuarios.add(v2);
         vendedores.add(v1);
-        Categoria c1 = new Categoria("Pelotas","Esferas de plastico para jugar");
-        Categoria c2 = new Categoria("Maletas","Para guardar cosas");
-        Categoria c3 = new Categoria("Libros","Pa leer");
+        vendedores.add(v2);
 
-        Producto p1 = new Producto("Pelota Roja","123", "/imagenes/img.png","12", LocalDate.of(2024, 07, 11),c1,2,Estado.PUBLICADO);
-        Producto p2 = new Producto("Pelota Verde","432","/imagenes/img.png","18", LocalDate.of(2024, 07, 11),c1,4,Estado.PUBLICADO);
-        Producto p3 = new Producto("Maleta","456","/imagenes/logo.png","10", LocalDate.of(2024, 07, 11),c2,8,Estado.PUBLICADO);
-        Producto p4 = new Producto("Libro","098","/imagenes/logo.png","82", LocalDate.of(2024, 07, 11),c3,2,Estado.PUBLICADO);
+        // Categorías existentes
+        Categoria c1 = new Categoria("Pelotas", "Esferas de plastico para jugar");
+        Categoria c2 = new Categoria("Maletas", "Para guardar cosas");
+        Categoria c3 = new Categoria("Libros", "Pa leer");
+        categorias.add(c1);
+        categorias.add(c2);
+        categorias.add(c3);
+
+        // Productos existentes
+        Producto p1 = new Producto("Pelota Roja", "123", "/imagenes/img.png", "12", LocalDate.of(2024, 7, 11), c1, 2, Estado.PUBLICADO);
+        Producto p2 = new Producto("Pelota Verde", "432", "/imagenes/img.png", "18", LocalDate.of(2024, 7, 11), c1, 4, Estado.PUBLICADO);
+        Producto p3 = new Producto("Maleta", "456", "/imagenes/logo.png", "10", LocalDate.of(2024, 7, 11), c2, 8, Estado.PUBLICADO);
+        Producto p4 = new Producto("Libro", "098", "/imagenes/logo.png", "82", LocalDate.of(2024, 7, 11), c3, 2, Estado.PUBLICADO);
         productos.add(p1);
         productos.add(p2);
         productos.add(p3);
         productos.add(p4);
-        v1.agregarProducto(marketplace,p1);
-        v1.agregarProducto(marketplace,p2);
-        v1.agregarProducto(marketplace,p3);
-        v1.agregarProducto(marketplace,p4);
 
+        // Asignación de productos a vendedores
+        v1.agregarProducto(marketplace, p1);
+        v1.agregarProducto(marketplace, p2);
+        v1.agregarProducto(marketplace, p3);
+        v1.agregarProducto(marketplace, p4);
 
-
-        // Crear el Marketplace con los datos iniciales
+        // Configuración de Marketplace con los datos iniciales
         marketplace.setUsuarios(usuarios);
         marketplace.setAdministradores(administradores);
         marketplace.setVendedores(vendedores);
         marketplace.setProductos(productos);
         marketplace.setCategorias(categorias);
-
-        // Inicializar otras propiedades si es necesario
 
         return marketplace;
     }

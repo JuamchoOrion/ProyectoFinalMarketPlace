@@ -1,7 +1,9 @@
 package com.example.proyectofinalmarketplace;
 
 
-public abstract class Usuario {
+import java.io.Serializable;
+
+public abstract class Usuario implements Serializable {
     public String nombre;
     private String contrasenia;
 

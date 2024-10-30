@@ -1,10 +1,11 @@
 package com.example.proyectofinalmarketplace;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Estadisticas {
+public class Estadisticas implements Serializable {
     private List<Vendedor> listaVendedores;
     private List<Producto> listaProductos;
 

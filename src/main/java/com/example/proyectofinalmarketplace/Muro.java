@@ -1,8 +1,9 @@
 package com.example.proyectofinalmarketplace;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Muro {
+public class Muro implements Serializable {
     private List<String> mensajes;
     private List<String> comentarios;
     private List<Producto> productosPublicados;

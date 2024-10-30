@@ -36,6 +36,8 @@ public class AdminController {
 
     @FXML
     private Button verVendButton;
+
+
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario admin = marketplace.getUsuarioActual();
     Utilities logger = Utilities.getInstance();
@@ -45,6 +47,13 @@ public class AdminController {
         cerrarButton.setOnAction(event -> {
             try {
                 cerrarSesion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        crearAdmButton.setOnAction(event -> {
+            try {
+                crearAdmin();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -80,6 +89,13 @@ public class AdminController {
                 }
         );
 
+        verVendButton.setOnAction(event -> {
+            try {
+                verVendedor();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
     }
     private void crearCategoria() throws IOException {
@@ -99,7 +115,9 @@ public class AdminController {
         }
 
     }
+
     private void cerrarSesion() throws IOException {
+        logger.logInfo("El administrador " + admin.getNombre() + " está cerrando sesión y navegando a Inicio.fxml.");
         FXMLLoader loader;
         Scene scene;
         loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
@@ -108,7 +126,9 @@ public class AdminController {
         stage.setScene(scene);
         stage.show();
     }
+
     private void remover() throws IOException {
+        logger.logInfo("El administrador " + admin.getNombre() + " está navegando a RemVend.fxml para remover un vendedor.");
         FXMLLoader loader;
         Scene scene;
         loader = new FXMLLoader(getClass().getResource("RemVend.fxml"));
@@ -117,7 +137,9 @@ public class AdminController {
         stage.setScene(scene);
         stage.show();
     }
+
     private void crearVendedor() throws IOException {
+        logger.logInfo("El administrador " + admin.getNombre() + " está navegando a CrearVend.fxml para crear un nuevo vendedor.");
         FXMLLoader loader;
         Scene scene;
         loader = new FXMLLoader(getClass().getResource("CrearVend.fxml"));
@@ -126,7 +148,19 @@ public class AdminController {
         stage.setScene(scene);
         stage.show();
     }
+    private void crearAdmin() throws IOException {
+        logger.logInfo("El administrador " + admin.getNombre() + " está navegando a CrearVend.fxml para crear un nuevo administrador.");
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("CrearAdm.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) crearVendButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
     private void editarVendedor() throws IOException {
+        logger.logInfo("El administrador " + admin.getNombre() + " está navegando a EditarVend.fxml para editar un vendedor.");
         FXMLLoader loader;
         Scene scene;
         loader = new FXMLLoader(getClass().getResource("EditarVend.fxml"));
@@ -135,11 +169,24 @@ public class AdminController {
         stage.setScene(scene);
         stage.show();
     }
+    private void verVendedor() throws IOException {
+        logger.logInfo("El administrador " + admin.getNombre() + " está navegando a VerVend.fxml para ver detalles del vendedor.");
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("VerVendedores.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) verVendButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+        logger.logInfo("Mostrando alerta: " + title + " - " + content);
     }
 }

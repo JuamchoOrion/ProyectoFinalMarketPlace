@@ -3,11 +3,12 @@ package com.example.proyectofinalmarketplace;
 import com.example.proyectofinalmarketplace.exceptions.UsuarioNoExisteException;
 import com.example.proyectofinalmarketplace.exceptions.UsuarioYaExisteException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Marketplace {
+public class Marketplace implements Serializable {
     private String nombre;
     private List<Producto> productos;
     private List<Usuario> usuarios;
@@ -16,7 +17,7 @@ public class Marketplace {
     private List<Categoria> categorias;
     private Estadisticas estadistica;
     private static Usuario usuarioActual;
-    Utilities logger = Utilities.getInstance();
+    transient Utilities logger = Utilities.getInstance();
 
 
     public Marketplace(String nombre) {
@@ -153,5 +154,23 @@ public class Marketplace {
         usuarios.add(admin);
     }
 
+    public List<Producto> getProductos() {
+        return productos;
+    }
 
+    public List<Admin> getAdministradores() {
+        return administradores;
+    }
+
+    public List<Vendedor> getVendedores() {
+        return vendedores;
+    }
+
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+
+    public Estadisticas getEstadistica() {
+        return estadistica;
+    }
 }

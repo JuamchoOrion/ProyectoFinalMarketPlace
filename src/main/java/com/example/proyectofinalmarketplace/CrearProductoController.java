@@ -21,5 +21,6 @@ public class CrearProductoController {
     @FXML
     public void initialize() {
 
+
     }
 }
