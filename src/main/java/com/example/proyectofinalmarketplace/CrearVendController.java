@@ -65,7 +65,7 @@ public class CrearVendController {
         // Verificar que no estén vacíos
         if (nombre.isEmpty() || contrasenia.isEmpty() || direccion.isEmpty() || descripcion.isEmpty() || cedula.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Campos Vacíos", "Por favor, complete todos los campos.");
-            logger.logInfo("Intento de registrarse con campos vacíos.");
+            logger.logInfo("El admin: " + admin.getNombre() +" Intento crear un Vendedor con campos vacios ");
             return;
         }
         if (admin instanceof Admin) {

@@ -81,19 +81,25 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
 
         // Evento para manejar el cierre de la aplicación
-        stage.setOnCloseRequest(event -> serializarDatos(marketplace));
+        stage.setOnCloseRequest(event -> {
+            try {
+                serializarDatos(marketplace);
+            } catch (IOException | ProductoYaExisteException | ProductoInvalidoException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         stage.show();
     }
 
-    private void serializarDatos(Marketplace marketplace) {
+    private void serializarDatos(Marketplace marketplace) throws IOException, ProductoYaExisteException, ProductoInvalidoException {
         Utilities utilities = Utilities.getInstance();
         HiloSerializacion<Admin> hiloSerializacionAdmin = new HiloSerializacion<>(marketplace.getAdministradores(), "administradores.dat");
         HiloSerializacion<Vendedor> hiloSerializacionVendedor = new HiloSerializacion<>(marketplace.getVendedores(), "vendedores.dat");
         HiloSerializacion<Producto> productoHiloSerializacion = new HiloSerializacion<>(marketplace.getProductos(), "productos.dat");
         HiloSerializacion<Categoria> categoriaHiloSerializacion = new HiloSerializacion<>(marketplace.getCategorias(), "categorias.dat");
         HiloSerializacion<Usuario> usuarioHiloSerializacion = new HiloSerializacion<>(marketplace.getUsuarios(), "usuarios.dat");
-
+        utilities.generarArchivoXML(marketplace.getListaVendedores(), "vendedores.xml");
         // Guardar en archivos TXT
         try {
             utilities.guardarListaTXT(marketplace.getAdministradores(), "administradores.txt");

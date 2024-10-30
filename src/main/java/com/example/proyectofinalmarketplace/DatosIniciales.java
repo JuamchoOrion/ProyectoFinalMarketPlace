@@ -13,6 +13,15 @@ public class DatosIniciales {
      *
      * @return Un objeto Marketplace preconfigurado con usuarios iniciales.
      */
+
+    public static Vendedor vendedorconProductos() throws ProductoYaExisteException, ProductoInvalidoException {
+        Marketplace marketplace = new Marketplace("Javadictos");
+        Vendedor v1 = new Vendedor("b", "1", "as", "b", "asdas");
+        Categoria c1 = new Categoria("Pelotas", "Esferas de plastico para jugar");
+        Producto p1 = new Producto("Pelota Roja", "123", "/imagenes/img.png", "12", LocalDate.of(2024, 7, 11), c1, 2, Estado.PUBLICADO);
+        v1.agregarProducto(marketplace, p1);
+        return v1;
+    }
     public static Marketplace crearMarketplaceConDatosIniciales() throws ProductoYaExisteException, ProductoInvalidoException {
         List<Usuario> usuarios = new ArrayList<>();
         List<Admin> administradores = new ArrayList<>();
