@@ -28,12 +28,12 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException, ProductoYaExisteException, ProductoInvalidoException {
         Utilities utilities = Utilities.getInstance();
 
-        HiloDeserializacion<Admin> hiloAdmins = new HiloDeserializacion<>("C:\\td\\persistenciaadministradores.dat");
-        HiloDeserializacion<Vendedor> hiloVendedores = new HiloDeserializacion<>("C:\\td\\persistenciavendedores.dat");
-        HiloDeserializacion<Producto> hiloProductos = new HiloDeserializacion<>("C:\\td\\persistenciaproductos.dat");
-        HiloDeserializacion<Categoria> hiloCategorias = new HiloDeserializacion<>("C:\\td\\persistenciacategorias.dat");
-        HiloDeserializacion<Usuario> hiloUsuarios = new HiloDeserializacion<>("C:\\td\\persistenciausuarios.dat");
-
+        // Deserialización en hilos
+        HiloDeserializacion<Admin> hiloAdmins = new HiloDeserializacion<>("C:\\td\\persistencia\\administradores.dat");
+        HiloDeserializacion<Vendedor> hiloVendedores = new HiloDeserializacion<>("C:\\td\\persistencia\\vendedores.dat");
+        HiloDeserializacion<Producto> hiloProductos = new HiloDeserializacion<>("C:\\td\\persistencia\\productos.dat");
+        HiloDeserializacion<Categoria> hiloCategorias = new HiloDeserializacion<>("C:\td\\persistencia\\categorias.dat");
+        HiloDeserializacion<Usuario> hiloUsuarios = new HiloDeserializacion<>("C:\\td\\persistencia\\usuarios.dat");
 
         // Iniciar hilos
         hiloAdmins.start();
@@ -59,7 +59,8 @@ public class HelloApplication extends Application {
         List<Producto> productos = hiloProductos.getListaDeserializada() != null ? hiloProductos.getListaDeserializada() : new ArrayList<>();
         List<Categoria> categorias = hiloCategorias.getListaDeserializada() != null ? hiloCategorias.getListaDeserializada() : new ArrayList<>();
         List<Usuario> usuarios = hiloUsuarios.getListaDeserializada() != null ? hiloUsuarios.getListaDeserializada() : new ArrayList<>();
-        // Verificar si alguna lista está vacía, y en ese caso, cargar datos iniciales
+
+        // Verificar si alguna lista está vacía y cargar datos iniciales si es necesario
         if (administradores.isEmpty() && vendedores.isEmpty() && productos.isEmpty() && categorias.isEmpty() && usuarios.isEmpty()) {
             marketplace = DatosIniciales.crearMarketplaceConDatosIniciales();
         } else {
@@ -81,60 +82,37 @@ public class HelloApplication extends Application {
 
         // Evento para manejar el cierre de la aplicación
         stage.setOnCloseRequest(event -> {
-            // Serialización de datos en la salida
-            HiloSerializacion<Admin> hiloSerializacionAdmin = new HiloSerializacion<>(marketplace.getAdministradores(), "administradores.dat");
-            HiloSerializacion<Vendedor> hiloSerializacionVendedor = new HiloSerializacion<>(marketplace.getVendedores(), "vendedores.dat");
-            HiloSerializacion<Producto> productoHiloSerializacion = new HiloSerializacion<>(marketplace.getProductos(), "productos.dat");
-            HiloSerializacion<Categoria> categoriaHiloSerializacion = new HiloSerializacion<>(marketplace.getCategorias(), "categorias.dat");
-            HiloSerializacion<Usuario> usuarioHiloSerializacion = new HiloSerializacion<>(marketplace.getUsuarios(), "usuarios.dat");
-            try {
-                utilities.guardarListaTXT(administradores,"administradores.txt");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                utilities.guardarListaTXT(vendedores,"vendedores.txt");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                utilities.guardarListaTXT(productos,"productos.txt");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                utilities.guardarListaTXT(categorias,"categorias.txt");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                utilities.guardarListaTXT(usuarios,"usuarios.txt");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            hiloSerializacionAdmin.start();
-            hiloSerializacionVendedor.start();
-            productoHiloSerializacion.start();
-            categoriaHiloSerializacion.start();
-            usuarioHiloSerializacion.start();
+
+            serializarDatos(marketplace);
         });
 
         stage.show();
     }
 
-    /**public static void main(String[] args) {
-        launch();
-    }**/
-    public static void main(String[] args) {
+    private void serializarDatos(Marketplace marketplace) {
         Utilities utilities = Utilities.getInstance();
+        HiloSerializacion<Admin> hiloSerializacionAdmin = new HiloSerializacion<>(marketplace.getAdministradores(), "administradores.dat");
+        HiloSerializacion<Vendedor> hiloSerializacionVendedor = new HiloSerializacion<>(marketplace.getVendedores(), "vendedores.dat");
+        HiloSerializacion<Producto> productoHiloSerializacion = new HiloSerializacion<>(marketplace.getProductos(), "productos.dat");
+        HiloSerializacion<Categoria> categoriaHiloSerializacion = new HiloSerializacion<>(marketplace.getCategorias(), "categorias.dat");
+        HiloSerializacion<Usuario> usuarioHiloSerializacion = new HiloSerializacion<>(marketplace.getUsuarios(), "usuarios.dat");
         try {
-
-            List<Admin> administradores = utilities.deserializarLista("C:\\td\\persistenciaadministradores.dat");
-            System.out.println("Administradores deserializados: " + administradores);
-        } catch (IOException | ClassNotFoundException e) {
+            utilities.guardarListaTXT(marketplace.getAdministradores(), "administradores.txt");
+            utilities.guardarListaTXT(marketplace.getVendedores(), "vendedores.txt");
+            utilities.guardarListaTXT(marketplace.getProductos(), "productos.txt");
+            utilities.guardarListaTXT(marketplace.getUsuarios(), "usuarios.txt");
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        launch();
+
+        hiloSerializacionAdmin.start();
+        hiloSerializacionVendedor.start();
+        productoHiloSerializacion.start();
+        categoriaHiloSerializacion.start();
+        usuarioHiloSerializacion.start();
     }
 
+    public static void main(String[] args) {
+        launch();
+    }
 }

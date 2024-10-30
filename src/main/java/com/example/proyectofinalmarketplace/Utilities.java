@@ -12,16 +12,16 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class Utilities {
-
+public class Utilities implements Serializable{
+    private static final long serialVersionUID = 1L;
     // Instancia única de la clase (para Singleton)
-    private static Utilities instanciaUnica = null;
+    private static Utilities instanciaUnica;
     String logFilePath = "C:/td/persistencia/log/log.txt";
 
 
     // Ruta base para los archivos de persistencia
-    private static final String DIRECTORIO_BASE = "C:\\td\\persistencia";
-    private static final String direccionRespaldo = "C:\td\\persistencia\\respaldo";
+    private static final String DIRECTORIO_BASE = "C:\\td\\persistencia\\";
+    private static final String direccionRespaldo = "C:\\td\\persistencia\\respaldo\\";
 
 
 

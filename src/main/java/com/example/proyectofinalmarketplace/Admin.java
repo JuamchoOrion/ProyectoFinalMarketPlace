@@ -12,11 +12,12 @@ public class Admin extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L; // Asegúrate de actualizar esto si cambias la clase
 
-    transient Utilities logger = Utilities.getInstance(); // Si Utilities no es serializable
+    Utilities logger; // Si Utilities no es serializable
 
     // Constructor
     public Admin(String nombre, String contrasenia) {
         super(nombre, contrasenia);
+        this.logger = Utilities.getInstance();
     }
 
     public void addVendedor(Marketplace marketplace, Vendedor vendedor) throws UsuarioYaExisteException {
