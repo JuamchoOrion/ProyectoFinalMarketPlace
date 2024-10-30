@@ -1,15 +1,16 @@
 package com.example.proyectofinalmarketplace;
 
+import javafx.beans.property.SimpleStringProperty;
+package com.example.proyectofinalmarketplace;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.swing.JOptionPane;
-import java.util.Optional;
 
 public class VerVendedorController {
 
@@ -23,65 +24,72 @@ public class VerVendedorController {
     private TableColumn<Vendedor, String> vendedorCedula;
 
     @FXML
-    private ObservableList<Vendedor> listaVendedores;
+    private Button btnEliminarVendedor;
 
     @FXML
-    private void initialize() {
-        // Inicializa las columnas
+    private Button btnVerVendedor;
+
+    @FXML
+    private Button btnDevolverVendedor;
+
+    private ObservableList<Vendedor> vendedoresList = FXCollections.observableArrayList();
+
+    @FXML
+    public void initialize() {
+        // Inicializa la tabla de vendedores
         vendedorNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         vendedorCedula.setCellValueFactory(new PropertyValueFactory<>("cedula"));
 
-        // Cargar datos de prueba
-        listaVendedores = FXCollections.observableArrayList(
-                new Vendedor("Carlos Pérez", "12345678", "Descripción", "password", "Calle 123"),
-                new Vendedor("Lucía Gómez", "87654321", "Descripción", "password", "Calle 456")
-        );
-
-        // Asignar la lista de vendedores a la tabla
-        tablaVendedores.setItems(listaVendedores);
+        // Cargar los vendedores en la tabla
+        cargarVendedores();
+        tablaVendedores.setItems(vendedoresList);
     }
 
-    // Función para ver los detalles del vendedor
-    @FXML
-    private void verVendedor() {
-        // Obtener el vendedor seleccionado en la tabla
-        Vendedor vendedorSeleccionado = tablaVendedores.getSelectionModel().getSelectedItem();
-
-        // Verificar que se ha seleccionado un vendedor
-        if (vendedorSeleccionado != null) {
-            // Mostrar información del vendedor en un JOptionPane
-            StringBuilder detalles = new StringBuilder();
-            detalles.append("Nombre: ").append(vendedorSeleccionado.getNombre()).append("\n");
-            detalles.append("Cédula: ").append(vendedorSeleccionado.getCedula()).append("\n");
-            detalles.append("Descripción: ").append(vendedorSeleccionado.getDescripcion()).append("\n");
-            detalles.append("Dirección: ").append(vendedorSeleccionado.getDireccion()).append("\n");
-
-
-            // Mostrar el JOptionPane
-            JOptionPane.showMessageDialog(null, detalles.toString(), "Detalles del Vendedor", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            // Si no se ha seleccionado ningún vendedor, mostrar un mensaje
-            JOptionPane.showMessageDialog(null, "Por favor, selecciona un vendedor.", "Error", JOptionPane.WARNING_MESSAGE);
-        }
+    private void cargarVendedores() {
+        // Agregar vendedores de prueba
+        vendedoresList.add(new Vendedor("Juan Pérez", "12345678"));
+        vendedoresList.add(new Vendedor("María López", "87654321"));
+        vendedoresList.add(new Vendedor("Carlos Gómez", "23456789"));
+        vendedoresList.add(new Vendedor("Ana Torres", "98765432"));
     }
 
-    // Función para eliminar un vendedor
     @FXML
     private void eliminarVendedor() {
         Vendedor vendedorSeleccionado = tablaVendedores.getSelectionModel().getSelectedItem();
-
         if (vendedorSeleccionado != null) {
-            Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-            alerta.setTitle("Confirmación");
-            alerta.setHeaderText("¿Está seguro de que desea eliminar este vendedor?");
-            alerta.setContentText("Nombre: " + vendedorSeleccionado.getNombre() + "\nCédula: " + vendedorSeleccionado.getCedula());
-
-            Optional<ButtonType> resultado = alerta.showAndWait();
-            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                listaVendedores.remove(vendedorSeleccionado);
-            }
+            // Eliminar el vendedor de la lista
+            vendedoresList.remove(vendedorSeleccionado);
+            // Mostrar mensaje de confirmación
+            showAlert(Alert.AlertType.INFORMATION, "Éxito", "Vendedor eliminado", "El vendedor ha sido eliminado correctamente.");
         } else {
-            JOptionPane.showMessageDialog(null, "Seleccione un vendedor para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            showAlert(Alert.AlertType.WARNING, "Advertencia", "No se ha seleccionado ningún vendedor", "Por favor selecciona un vendedor para eliminar.");
         }
+    }
+
+    @FXML
+    private void verVendedor() {
+        Vendedor vendedorSeleccionado = tablaVendedores.getSelectionModel().getSelectedItem();
+        if (vendedorSeleccionado != null) {
+            // Mostrar detalles del vendedor en un alert
+            showAlert(Alert.AlertType.INFORMATION, "Detalles del Vendedor", "Nombre: " + vendedorSeleccionado.getNombre(),
+                    "Cédula: " + vendedorSeleccionado.getCedula());
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Advertencia", "No se ha seleccionado ningún vendedor", "Por favor selecciona un vendedor para ver sus detalles.");
+        }
+    }
+
+    @FXML
+    private void devolver() {
+        // Lógica para regresar a la vista anterior
+        System.out.println("Devolviendo a la vista anterior...");
+        // Implementar la lógica de retorno
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
