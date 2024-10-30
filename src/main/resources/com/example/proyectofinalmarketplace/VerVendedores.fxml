@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="backgroundColor" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofinalmarketplace.VerVendedorController">
+    <children>
+        <Label layoutX="244.0" layoutY="31.0" styleClass="titulo" text="Vendedores" />
+
+        <!-- Tabla de Vendedores con solo dos columnas: Nombre y Cédula -->
+        <TableView fx:id="tablaVendedores" layoutX="20.0" layoutY="80.0" prefHeight="250.0" prefWidth="560.0">
+            <columns>
+                <TableColumn fx:id="vendedorNombre" prefWidth="280.0" text="Nombre del Vendedor" />
+                <TableColumn fx:id="vendedorCedula" prefWidth="280.0" text="Cédula" />
+            </columns>
+        </TableView>
+
+        <!-- Botón para eliminar vendedor -->
+        <Button id="EliminarVendedor" fx:id="btnEliminarVendedor" layoutX="40.0" layoutY="350.0" mnemonicParsing="false" text="Eliminar vendedor" />
+
+        <!-- Botón para ver detalles del vendedor -->
+        <Button id="VerVendedor" fx:id="btnVerVendedor" layoutX="200.0" layoutY="350.0" mnemonicParsing="false" text="Ver vendedor" />
+
+        <!-- Botón para devolver vendedor -->
+        <Button id="devolver" fx:id="btnDevolverVendedor" layoutX="360.0" layoutY="350.0" mnemonicParsing="false" text="Devolver " />
+    </children>
+</AnchorPane>

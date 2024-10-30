@@ -27,7 +27,7 @@ public class HelloApplication extends Application {
         Utilities logger = Utilities.getInstance();
         marketplace = DatosIniciales.crearMarketplaceConDatosIniciales();
         MarketplaceManager.setMarketplaceInstance(marketplace);
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Inicio.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("VerVendedores.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
         stage.setTitle("Hello!");
         stage.setScene(scene);
