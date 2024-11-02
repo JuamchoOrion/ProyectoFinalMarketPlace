@@ -64,7 +64,7 @@ public class PerfilController {
         logger.logInfo("El vendedor " + vendedor.getNombre() + " está intentando agregar un nuevo producto.");
         FXMLLoader loader;
         Scene scene;
-        loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
+        loader = new FXMLLoader(getClass().getResource("AgregarProducto.fxml"));
         scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
         Stage stage = (Stage) AggProducto.getScene().getWindow();
         stage.setScene(scene);

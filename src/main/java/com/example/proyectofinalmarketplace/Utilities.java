@@ -226,7 +226,7 @@ public class Utilities  { ;
 
 
 
-    public <T extends Serializable> void generarArchivoDat(List<?> list, String nombreArchivo) throws IOException {
+    public <T extends Serializable> void generarArchivoDat(List<?> list, String  nombreArchivo) throws IOException {
         if (list != null) {
             // Serializa en la ruta original
             boolean result = serializarObjeto(DIRECTORIO_BASE + nombreArchivo, (Serializable) list);

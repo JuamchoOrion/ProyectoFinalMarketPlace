@@ -2,6 +2,7 @@ package com.example.proyectofinalmarketplace;
 
 import com.example.proyectofinalmarketplace.exceptions.ProductoInvalidoException;
 import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException;
+import com.example.proyectofinalmarketplace.exceptions.UsuarioYaExisteException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HelloApplication extends Application {
-    private static final int WIDTH = 600;   // Ancho estándar
-    private static final int HEIGHT = 400;  // Alto estándar
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 400;
     private Marketplace marketplace;
 
     public static double getWidth() {
@@ -25,7 +26,7 @@ public class HelloApplication extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException, ProductoYaExisteException, ProductoInvalidoException {
+    public void start(Stage stage) throws IOException, ProductoYaExisteException, ProductoInvalidoException, UsuarioYaExisteException {
         Utilities utilities = Utilities.getInstance();
 
         // Deserialización en hilos
@@ -60,17 +61,19 @@ public class HelloApplication extends Application {
         List<Categoria> categorias = hiloCategorias.getListaDeserializada() != null ? hiloCategorias.getListaDeserializada() : new ArrayList<>();
         List<Usuario> usuarios = hiloUsuarios.getListaDeserializada() != null ? hiloUsuarios.getListaDeserializada() : new ArrayList<>();
 
-        // Verificar si alguna lista está vacía y cargar datos iniciales si es necesario
-        if (administradores.isEmpty() && vendedores.isEmpty() && productos.isEmpty() && categorias.isEmpty() && usuarios.isEmpty()) {
-            marketplace = DatosIniciales.crearMarketplaceConDatosIniciales();
-        } else {
-            marketplace = new Marketplace("JavaDictos");
-            marketplace.setAdministradores(administradores);
-            marketplace.setVendedores(vendedores);
-            marketplace.setProductos(productos);
-            marketplace.setCategorias(categorias);
-            marketplace.setUsuarios(usuarios);
-        }
+        // Configurar el marketplace con datos deserializados
+        marketplace = new Marketplace("JavaDictos");
+        marketplace.setAdministradores(administradores);
+        marketplace.setVendedores(vendedores);
+        marketplace.setProductos(productos);
+        marketplace.setCategorias(categorias);
+        marketplace.setUsuarios(usuarios);
+
+        // Crear y añadir un vendedor con productos adicionales, independientemente de la deserialización
+        Vendedor vendedorExtra = DatosIniciales.crearVendedorConProductos(marketplace);
+        marketplace.getVendedores().add(vendedorExtra);
+        marketplace.getUsuarios().add(vendedorExtra); // Añadir también a la lista de usuarios
+         // Añadir los productos del vendedor
 
         MarketplaceManager.setMarketplaceInstance(marketplace);
 
@@ -99,7 +102,9 @@ public class HelloApplication extends Application {
         HiloSerializacion<Producto> productoHiloSerializacion = new HiloSerializacion<>(marketplace.getProductos(), "productos.dat");
         HiloSerializacion<Categoria> categoriaHiloSerializacion = new HiloSerializacion<>(marketplace.getCategorias(), "categorias.dat");
         HiloSerializacion<Usuario> usuarioHiloSerializacion = new HiloSerializacion<>(marketplace.getUsuarios(), "usuarios.dat");
+
         utilities.generarArchivoXML(marketplace.getListaVendedores(), "vendedores.xml");
+
         // Guardar en archivos TXT
         try {
             utilities.guardarListaTXT(marketplace.getAdministradores(), "administradores.txt");

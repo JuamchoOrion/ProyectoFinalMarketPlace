@@ -14,14 +14,31 @@ public class DatosIniciales {
      * @return Un objeto Marketplace preconfigurado con usuarios iniciales.
      */
 
-    public static Vendedor vendedorconProductos() throws ProductoYaExisteException, ProductoInvalidoException {
-        Marketplace marketplace = new Marketplace("Javadictos");
-        Vendedor v1 = new Vendedor("b", "1", "as", "b", "asdas");
-        Categoria c1 = new Categoria("Pelotas", "Esferas de plastico para jugar");
-        Producto p1 = new Producto("Pelota Roja", "123", "/imagenes/img.png", "12", LocalDate.of(2024, 7, 11), c1, 2, Estado.PUBLICADO);
-        v1.agregarProducto(marketplace, p1);
-        return v1;
+    /**
+     * Crea una instancia de Vendedor con varios productos.
+     *
+     * @return Un objeto Vendedor con productos preconfigurados.
+     */
+    public static Vendedor crearVendedorConProductos(Marketplace marketplace) throws ProductoYaExisteException, ProductoInvalidoException {
+        Vendedor vendedor = new Vendedor("vendedorDemo", "12345", "demo@correo.com", "demoUser", "passwordDemo");
+
+        // Crear categorías
+        Categoria categoriaPelotas = new Categoria("Pelotas", "Esferas de plástico para jugar");
+        Categoria categoriaLibros = new Categoria("Libros", "Libros para lectura");
+
+        // Crear productos y asociarlos al vendedor
+        Producto pelotaRoja = new Producto("Pelota Roja", "001", "/imagenes/img.png", "15.00", LocalDate.of(2024, 7, 11), categoriaPelotas, 5, Estado.PUBLICADO);
+        Producto pelotaAzul = new Producto("Pelota Azul", "002", "/imagenes/img.png", "12.00", LocalDate.of(2024, 7, 12), categoriaPelotas, 3, Estado.PUBLICADO);
+        Producto libroJava = new Producto("Aprende Java", "003", "/imagenes/img.png", "45.00", LocalDate.of(2024, 7, 15), categoriaLibros, 10, Estado.PUBLICADO);
+
+        // Añadir los productos al vendedor
+        vendedor.agregarProducto(marketplace, pelotaRoja);
+        vendedor.agregarProducto(marketplace, pelotaAzul);
+        vendedor.agregarProducto(marketplace, libroJava);
+
+        return vendedor;
     }
+
     public static Marketplace crearMarketplaceConDatosIniciales() throws ProductoYaExisteException, ProductoInvalidoException {
         List<Usuario> usuarios = new ArrayList<>();
         List<Admin> administradores = new ArrayList<>();

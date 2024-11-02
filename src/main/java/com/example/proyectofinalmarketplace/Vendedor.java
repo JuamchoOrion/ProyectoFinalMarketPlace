@@ -22,6 +22,22 @@ public class Vendedor extends Usuario implements Serializable{
     private List<Vendedor> solicitudesPendientes = new ArrayList<>();
     transient  Utilities logger = Utilities.getInstance();
 
+    public void setListaContactos(List<Vendedor> listaContactos) {
+        this.listaContactos = listaContactos;
+    }
+
+    public void setListaProductos(List<Producto> listaProductos) {
+        this.listaProductos = listaProductos;
+    }
+
+    public List<Vendedor> getSolicitudesPendientes() {
+        return solicitudesPendientes;
+    }
+
+    public void setSolicitudesPendientes(List<Vendedor> solicitudesPendientes) {
+        this.solicitudesPendientes = solicitudesPendientes;
+    }
+
     public Vendedor(String nombre, String cedula, String descripcion, String contrasenia, String direccion) {
         super(nombre, contrasenia);
         this.direccion = direccion;
@@ -30,7 +46,6 @@ public class Vendedor extends Usuario implements Serializable{
         this.listaProductos = new ArrayList<>();
         this.cedula = cedula;
     }
-
 
     public String getDescripcion() {
         return descripcion;
