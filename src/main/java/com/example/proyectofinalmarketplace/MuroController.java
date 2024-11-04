@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MuroController {
@@ -67,19 +68,30 @@ public class MuroController {
 
         List<Producto> productos = new ArrayList<>();
 
-        // Agregar productos del vendedor actual
+// Agregar productos del vendedor actual
         if (usuarioActual instanceof Vendedor) {
-            productos.addAll(((Vendedor) usuarioActual).getListaProductos());
-            logger.logInfo("Productos del vendedor " + ((Vendedor) usuarioActual).getNombre() + " añadidos a la lista.");
+            for (Producto producto : ((Vendedor) usuarioActual).getListaProductos()) {
+                if (producto.getEstado() == Estado.PUBLICADO) { // Verifica el estado del producto
+                    productos.add(producto);
+                    logger.logInfo("Producto " + producto.getNombre() + " del vendedor " + ((Vendedor) usuarioActual).getNombre() + " añadido a la lista.");
+                }
+            }
         } else {
             logger.logWarning("El usuario actual no es un vendedor.");
         }
 
-        // Agregar productos de la lista de amigos del vendedor principal
+// Agregar productos de la lista de amigos del vendedor principal
         for (Vendedor amigo : ((Vendedor) usuarioActual).getListaContactos()) {
-            productos.addAll(amigo.getListaProductos());
-            logger.logInfo("Productos del amigo " + amigo.getNombre() + " añadidos a la lista.");
+            for (Producto producto : amigo.getListaProductos()) {
+                if (producto.getEstado() == Estado.PUBLICADO) { // Verifica el estado del producto
+                    productos.add(producto);
+                    logger.logInfo("Producto " + producto.getNombre() + " del amigo " + amigo.getNombre() + " añadido a la lista.");
+                }
+            }
         }
+
+// Ordenar la lista de productos desde el más nuevo al más viejo
+        productos.sort(Comparator.comparing(Producto::getFechaPublicacion).reversed());
 
         int column = 0;
         int row = 0;

@@ -16,6 +16,7 @@ public class Marketplace implements Serializable {
     private List<Vendedor> vendedores;
     private List<Categoria> categorias;
     private Estadisticas estadistica;
+    private Vendedor vendedorPorAgregar;
     private static Usuario usuarioActual;
     transient Utilities logger = Utilities.getInstance();
 
@@ -172,5 +173,13 @@ public class Marketplace implements Serializable {
 
     public Estadisticas getEstadistica() {
         return estadistica;
+    }
+
+    public Vendedor getVendedorPorAgregar() {
+        return vendedorPorAgregar;
+    }
+
+    public void setVendedorPorAgregar(Vendedor vendedorPorAgregar) {
+        this.vendedorPorAgregar = vendedorPorAgregar;
     }
 }

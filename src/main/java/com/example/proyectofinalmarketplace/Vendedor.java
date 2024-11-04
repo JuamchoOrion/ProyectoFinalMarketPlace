@@ -5,6 +5,7 @@ import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException
 import com.example.proyectofinalmarketplace.exceptions.ProductoInvalidoException;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -138,6 +139,7 @@ public class Vendedor extends Usuario implements Serializable{
         marketplace.getListaProductos().add(producto);
         listaProductos.add(producto);
         logger.logInfo("Producto : " + producto.getNombre()+ " fue creado por: "+ nombre);
+        producto.setFechaPublicacion(LocalDateTime.now());
     }
 
     public List<Producto> getListaProductos() {
@@ -165,15 +167,13 @@ public class Vendedor extends Usuario implements Serializable{
 
 // metodo para actualizar atributos del producto segun id
 public void actualizarProducto(String codigo, String nombre, String imagen, String precio,
-                               LocalDate fechaPublicacion, Categoria categoria, int likes, Estado estado)
+                                Categoria categoria,  Estado estado)
         throws ProductoNoEncontradoException {
     Producto producto = encontrarProductoPorCodigo(codigo);
     producto.setNombre(nombre);
     producto.setImagen(imagen);
     producto.setPrecio(precio);
-    producto.setFechaPublicacion(fechaPublicacion);
     producto.setCategoria(categoria);
-    producto.setLikes(likes);
     producto.setEstado(estado);
     logger.logInfo("Producto actualizado: " + producto.getNombre());
 }

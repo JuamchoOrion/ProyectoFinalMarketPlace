@@ -4,6 +4,7 @@ import com.example.proyectofinalmarketplace.exceptions.ProductoInvalidoException
 import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class DatosIniciales {
         Categoria categoriaLibros = new Categoria("Libros", "Libros para lectura");
 
         // Crear productos y asociarlos al vendedor
-        Producto pelotaRoja = new Producto("Pelota Roja", "001", "/imagenes/img.png", "15.00", LocalDate.of(2024, 7, 11), categoriaPelotas, 5, Estado.PUBLICADO);
-        Producto pelotaAzul = new Producto("Pelota Azul", "002", "/imagenes/img.png", "12.00", LocalDate.of(2024, 7, 12), categoriaPelotas, 3, Estado.PUBLICADO);
-        Producto libroJava = new Producto("Aprende Java", "003", "/imagenes/img.png", "45.00", LocalDate.of(2024, 7, 15), categoriaLibros, 10, Estado.PUBLICADO);
+        Producto pelotaRoja = new Producto("Pelota Roja", "001", "/imagenes/img.png", "15.00", LocalDateTime.now(), categoriaPelotas, 5, Estado.PUBLICADO);
+        Producto pelotaAzul = new Producto("Pelota Azul", "002", "/imagenes/img.png", "12.00",LocalDateTime.now(), categoriaPelotas, 3, Estado.PUBLICADO);
+        Producto libroJava = new Producto("Aprende Java", "003", "/imagenes/img.png", "45.00", LocalDateTime.now(), categoriaLibros, 10, Estado.PUBLICADO);
 
         // Añadir los productos al vendedor
         vendedor.agregarProducto(marketplace, pelotaRoja);
@@ -77,10 +78,10 @@ public class DatosIniciales {
         categorias.add(c3);
 
         // Productos existentes
-        Producto p1 = new Producto("Pelota Roja", "123", "/imagenes/img.png", "12", LocalDate.of(2024, 7, 11), c1, 2, Estado.PUBLICADO);
-        Producto p2 = new Producto("Pelota Verde", "432", "/imagenes/img.png", "18", LocalDate.of(2024, 7, 11), c1, 4, Estado.PUBLICADO);
-        Producto p3 = new Producto("Maleta", "456", "/imagenes/logo.png", "10", LocalDate.of(2024, 7, 11), c2, 8, Estado.PUBLICADO);
-        Producto p4 = new Producto("Libro", "098", "/imagenes/logo.png", "82", LocalDate.of(2024, 7, 11), c3, 2, Estado.PUBLICADO);
+        Producto p1 = new Producto("Pelota Roja", "123", "/imagenes/img.png", "12", LocalDateTime.now(), c1, 2, Estado.PUBLICADO);
+        Producto p2 = new Producto("Pelota Verde", "432", "/imagenes/img.png", "18", LocalDateTime.now(), c1, 4, Estado.PUBLICADO);
+        Producto p3 = new Producto("Maleta", "456", "/imagenes/logo.png", "10", LocalDateTime.now(), c2, 8, Estado.PUBLICADO);
+        Producto p4 = new Producto("Libro", "098", "/imagenes/logo.png", "82", LocalDateTime.now(), c3, 2, Estado.PUBLICADO);
         productos.add(p1);
         productos.add(p2);
         productos.add(p3);

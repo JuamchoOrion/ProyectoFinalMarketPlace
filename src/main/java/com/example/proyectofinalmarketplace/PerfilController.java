@@ -1,16 +1,21 @@
 package com.example.proyectofinalmarketplace;
 
+import com.example.proyectofinalmarketplace.exceptions.ProductoInvalidoException;
+import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PerfilController {
@@ -25,6 +30,9 @@ public class PerfilController {
     private Label priceProduct1, priceProduct2, priceProduct3;
 
     @FXML
+    private Button homeButton;
+
+    @FXML
     private Label nombreUsuario;  // Etiqueta para mostrar el nombre de usuario
 
     @FXML
@@ -32,6 +40,12 @@ public class PerfilController {
 
     @FXML
     private Button AggProducto;
+
+    @FXML
+    private TextField inputCedula;
+
+    @FXML
+    private Button buscarVendedor;
 
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario usuario = marketplace.getUsuarioActual();
@@ -46,10 +60,26 @@ public class PerfilController {
             logger.logInfo("Perfil cargado para el vendedor: " + vendedor.getNombre());
             cargarProductos();
             mostrarTopProductos();
+
+            homeButton.setOnAction(event -> {
+                try {
+                    volverHome();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         } else {
             logger.logWarning("El usuario actual no es un vendedor.");
         }
 
+        buscarVendedor.setOnAction(event -> {
+            try {
+               buscar();
+            } catch (IOException e) {
+                logger.logWarning("Error al intentar buscar un vendedor: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+        });
         AggProducto.setOnAction(event -> {
             try {
                 crearProducto();
@@ -59,7 +89,22 @@ public class PerfilController {
             }
         });
     }
+    private void buscar() throws IOException {
+        String cedula = inputCedula.getText();
 
+        for (Vendedor vendedor : marketplace.getVendedores()) {
+            if (vendedor.getCedula().equals(cedula)) {
+                marketplace.setVendedorPorAgregar(vendedor);
+            }
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilDeOtro.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) buscarVendedor.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
     private void crearProducto() throws IOException {
         logger.logInfo("El vendedor " + vendedor.getNombre() + " está intentando agregar un nuevo producto.");
         FXMLLoader loader;
@@ -67,6 +112,16 @@ public class PerfilController {
         loader = new FXMLLoader(getClass().getResource("AgregarProducto.fxml"));
         scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
         Stage stage = (Stage) AggProducto.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+    private void volverHome() throws IOException {
+        logger.logInfo("El usuario " + usuario.getNombre() + " está regresando al home ");
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Muro.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) homeButton.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }

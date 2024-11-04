@@ -2,6 +2,7 @@ package com.example.proyectofinalmarketplace;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,14 +13,14 @@ public class Producto implements Serializable {
     private String codigo;
     private String imagen;
     private String precio;
-    private LocalDate fechaPublicacion;
+    private LocalDateTime fechaPublicacion;
     private Categoria categoria;
     private int likes;
     private Estado estado;
     private List<Comentario> comentarios = new ArrayList<>();
 
 
-    public Producto(String nombre, String codigo, String imagen, String precio, LocalDate fechaPublicacion, Categoria categoria, int likes,Estado estado) {
+    public Producto(String nombre, String codigo, String imagen, String precio, LocalDateTime fechaPublicacion, Categoria categoria, int likes,Estado estado) {
     this.nombre = nombre;
     this.codigo = codigo;
     this.imagen = imagen;
@@ -54,7 +55,7 @@ public String getImagen() {
 public String getPrecio() {
     return precio;
 }
-public LocalDate getFechaPublicacion() {
+public LocalDateTime getFechaPublicacion() {
     return fechaPublicacion;
 }
 public int getLikes() {
@@ -80,7 +81,7 @@ public int getLikes() {
    public void setPrecio(String precio) {
     this.precio = precio;
    }
-   public void setFechaPublicacion(LocalDate fechaPublicacion) {
+   public void setFechaPublicacion(LocalDateTime fechaPublicacion) {
     this.fechaPublicacion = fechaPublicacion;
    }
    public void setLikes(int likes) {

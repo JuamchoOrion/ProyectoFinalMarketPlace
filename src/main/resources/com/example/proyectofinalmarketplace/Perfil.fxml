@@ -30,10 +30,10 @@
         <AnchorPane layoutY="-1.0" prefHeight="56.0" prefWidth="600.0" styleClass="colorsolido">
             <children>
                 <Button layoutX="112.0" layoutY="15.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
-                <TextField layoutX="344.0" layoutY="17.0" />
+                <TextField fx:id="inputCedula" layoutX="344.0" layoutY="17.0" />
                 <Label layoutX="241.0" layoutY="21.0" styleClass="label-style" text="Buscar Usuario" />
-                <Button layoutX="34.0" layoutY="16.0" mnemonicParsing="false" stylesheets="@Style.css" text="Home" />
-                <Button layoutX="507.0" layoutY="17.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
+                <Button fx:id="homeButton" layoutX="34.0" layoutY="16.0" mnemonicParsing="false" stylesheets="@Style.css" text="Home" />
+                <Button fx:id="buscarVendedor" layoutX="507.0" layoutY="17.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
             </children>
         </AnchorPane>
 

@@ -87,7 +87,7 @@ public class Admin extends Usuario implements Serializable {
         logger.logInfo("Vendedor " + vendedor.getNombre() + " editado satisfactoriamente");
     }
 
-    public Producto editarProducto(Marketplace marketplace, Vendedor vendedor, Producto producto, String newNombre, String newCodigo, String newImagen, String newPrecio, LocalDate newFechaPublicacion, Categoria newCategoria, int newLikes, Estado newEstado) throws ProductoYaExisteException {
+    public Producto editarProducto(Marketplace marketplace, Vendedor vendedor, Producto producto, String newNombre, String newCodigo, String newImagen, String newPrecio,  Categoria newCategoria, int newLikes, Estado newEstado) throws ProductoYaExisteException {
         for (Producto v : marketplace.getListaProductos()) {
             if (Objects.equals(v.getCodigo(), newCodigo) && !v.equals(producto)) {
                 logger.logWarning("Se intentó editar el producto " + producto.getNombre() + ", pero ya existe otro producto con el código ingresado");
@@ -98,7 +98,6 @@ public class Admin extends Usuario implements Serializable {
         producto.setCodigo(newCodigo);
         producto.setImagen(newImagen);
         producto.setPrecio(newPrecio);
-        producto.setFechaPublicacion(newFechaPublicacion);
         producto.setCategoria(newCategoria);
         producto.setLikes(newLikes);
         producto.setEstado(newEstado);

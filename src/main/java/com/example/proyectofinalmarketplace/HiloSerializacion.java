@@ -16,7 +16,7 @@ public class HiloSerializacion<T extends Serializable> extends Thread {
     public void run() {
         Utilities utilities = Utilities.getInstance();
         try {
-            utilities.generarArchivoDat(lista, nombreArchivo); // Genera el archivo de administradores
+            utilities.generarArchivoDat(lista, nombreArchivo);
         } catch (IOException e) {
             utilities.logSevere("Error al serializar la lista de administradores: " + e.getMessage());
         }

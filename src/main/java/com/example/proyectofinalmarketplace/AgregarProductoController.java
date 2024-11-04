@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AgregarProductoController {
@@ -63,7 +64,7 @@ public class AgregarProductoController {
 
     // Acción del botón Añadir Producto
     @FXML
-    private void aniadirProducto() throws ProductoYaExisteException, ProductoInvalidoException {
+    private void aniadirProducto() throws ProductoYaExisteException, ProductoInvalidoException, IOException {
         String nombreProducto = nombreField.getText();
         String codigoProducto = codigoField.getText();
         String urlImagen = urlField.getText();
@@ -71,11 +72,18 @@ public class AgregarProductoController {
         String precio = precioField.getText();
 
         // Crear y agregar el producto
-        Producto producto = new Producto(nombreProducto, codigoProducto, urlImagen, precio, LocalDate.now(), categoriaSeleccionada, 0, Estado.PUBLICADO);
+        Producto producto = new Producto(nombreProducto, codigoProducto, urlImagen, precio, LocalDateTime.now(), categoriaSeleccionada, 0, Estado.PUBLICADO);
         usuario.agregarProducto(marketplace, producto);
 
         // Confirmación de la acción (puedes agregar un mensaje en la interfaz si lo deseas)
         System.out.println("Producto agregado: " + producto);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Perfil.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) volverBtn.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     // Acción del botón Volver
