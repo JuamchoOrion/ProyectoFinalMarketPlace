@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="backgroundColor" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofinalmarketplace.PerfilDeOtroController">
+   <children>
+      <AnchorPane layoutY="55.0" prefHeight="346.0" prefWidth="150.0" styleClass="colorsolido" stylesheets="@Style.css">
+         <children>
+            <VBox fx:id="topProductosVBox" layoutX="24.0" layoutY="100.0" spacing="5.0" />
+            <Button fx:id="AggProducto" layoutX="12.0" layoutY="158.0" mnemonicParsing="false" stylesheets="@Style.css" text="Agregar Contacto" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="-1.0" prefHeight="56.0" prefWidth="600.0" styleClass="colorsolido">
+         <children>
+            <Button layoutX="112.0" layoutY="15.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
+            <TextField fx:id="inputCedula" layoutX="344.0" layoutY="17.0" />
+            <Label layoutX="241.0" layoutY="21.0" styleClass="label-style" text="Buscar Usuario" />
+            <Button fx:id="homeButton" layoutX="34.0" layoutY="16.0" mnemonicParsing="false" stylesheets="@Style.css" text="Home" />
+            <Button fx:id="buscarVendedor" layoutX="507.0" layoutY="17.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
+         </children>
+      </AnchorPane>
+      <Label fx:id="nombreUsuario" layoutX="316.0" layoutY="63.0" styleClass="titulo" text="NOMBRE DE USUARIO" />
+      <HBox layoutX="230.0" layoutY="100.0" spacing="20">
+         <children>
+            <VBox alignment="CENTER">
+               <children>
+                  <ImageView fx:id="imageProduct1" fitHeight="100.0" fitWidth="100.0" />
+                  <Label fx:id="nameProduct1" text="Producto 1" />
+                  <Label fx:id="priceProduct1" text="Precio: €XX" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <ImageView fx:id="imageProduct2" fitHeight="100.0" fitWidth="100.0" />
+                  <Label fx:id="nameProduct2" text="Producto 2" />
+                  <Label fx:id="priceProduct2" text="Precio: €XX" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <ImageView fx:id="imageProduct3" fitHeight="100.0" fitWidth="100.0" />
+                  <Label fx:id="nameProduct3" text="Producto 3" />
+                  <Label fx:id="priceProduct3" text="Precio: €XX" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <ScrollPane hbarPolicy="NEVER" layoutX="230.0" layoutY="250.0" prefHeight="120.0" prefWidth="300.0" styleClass="container" stylesheets="@Style.css" vbarPolicy="AS_NEEDED">
+         <content>
+            <VBox fx:id="vboxComentarios" alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
+               <children>
+                  <HBox spacing="10">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Usuario 1: " />
+                        <Label text="Excelente vendedor, todo llegó a tiempo." />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Usuario 2: " />
+                        <Label text="El producto no cumplió con mis expectativas." />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Usuario 3: " />
+                        <Label text="Muy buen servicio, repetiría sin dudar." />
+                     </children>
+                  </HBox>
+                  <HBox spacing="10">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Usuario 4: " />
+                        <Label text="Comunicación rápida y efectiva." />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
