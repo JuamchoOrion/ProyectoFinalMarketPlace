@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -40,7 +41,8 @@ public class PerfilController {
 
     @FXML
     private Button cancelarButton;
-
+    @FXML
+    private VBox vboxComentarios;
     @FXML
     private Label nombreUsuario;  // Etiqueta para mostrar el nombre de usuario
 
@@ -67,7 +69,7 @@ public class PerfilController {
         logger.logInfo("Perfil cargado para el vendedor: " + vendedor.getNombre());
         cargarProductos();
         mostrarTopProductos();
-
+        cargarComentarios();
         homeButton.setOnAction(event -> {
             try {
                 volverHome();
@@ -193,6 +195,39 @@ public class PerfilController {
             Label productoLabel = new Label(producto.getNombre());
             topProductosVBox.getChildren().add(productoLabel);
             logger.logInfo("Producto añadido a la lista de top productos: " + producto.getNombre());
+        }
+    }
+    private void cargarComentarios() {
+        // Limpia el VBox para evitar duplicados al recargar los comentarios
+        vboxComentarios.getChildren().clear();
+
+        // Itera sobre cada producto en la lista de productos del vendedor
+        for (Producto producto : vendedor.getListaProductos()) {
+            // Label para mostrar el nombre del producto
+            Label nombreProductoLabel = new Label("Producto: " + producto.getNombre());// Estilo opcional
+
+            vboxComentarios.getChildren().add(nombreProductoLabel); // Agrega el nombre del producto
+
+            // Itera sobre cada comentario del producto
+            for (Comentario comentario : producto.getComentarios()) {
+                // HBox para contener el comentario y una fecha (opcional)
+                HBox comentarioBox = new HBox();
+                comentarioBox.setSpacing(10);
+
+                // Label para el comentario
+                Label comentarioLabel = new Label(comentario.getTexto());
+                comentarioLabel.setWrapText(true); // Permite el ajuste del texto en varias líneas
+
+
+                // Agrega el comentario y la fecha a la HBox
+                comentarioBox.getChildren().addAll(comentarioLabel);
+
+
+                vboxComentarios.getChildren().add(comentarioBox);
+            }
+
+            // Añade una separación visual entre productos
+            vboxComentarios.getChildren().add(new Label("----------"));
         }
     }
 }

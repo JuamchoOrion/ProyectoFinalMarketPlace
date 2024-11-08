@@ -21,7 +21,7 @@ public class DatosIniciales {
      * @return Un objeto Vendedor con productos preconfigurados.
      */
     public static Vendedor crearVendedorConProductos(Marketplace marketplace) throws ProductoYaExisteException, ProductoInvalidoException {
-        Vendedor vendedor = new Vendedor("vendedorDemo", "12345", "demo@correo.com", "demoUser", "passwordDemo");
+        Vendedor vendedor = new Vendedor("b", "12345", "demo@correo.com", "b", "passwordDemo");
 
         // Crear categorías
         Categoria categoriaPelotas = new Categoria("Pelotas", "Esferas de plástico para jugar");

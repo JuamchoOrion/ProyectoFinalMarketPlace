@@ -1,62 +1,148 @@
+/* Fondo con degradado */
 .backgroundColor{
-    -fx-background-color: linear-gradient(to right, #0000ff, #b91949);
+    -fx-background-color: linear-gradient(to right, #8e24aa, #7b1fa2); /* Degradado de morado intenso a rosa profundo */
 }
+
+/* Estilo para las etiquetas */
 .label-style {
     -fx-font-size: 12px; /* Tamaño de la fuente en píxeles */
     -fx-font-family: Bahnschrift; /* Fuente */
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #ffffff; /* Blanco para el texto */
 }
+
+/* Estilo para contenedores generales */
 .container{
-    -fx-background-color: #d23c5e;
-    -fx-opacity: 60%;
+    -fx-background-color: #7b1fa2; /* Morado intenso */
+    -fx-opacity: 85%; /* Opacidad ligeramente más alta */
 }
+
+/* Títulos principales */
 .titulo{
     -fx-border-radius: 10px;
     -fx-font-size: 24px; /* Tamaño de la fuente en píxeles */
     -fx-font-family: Bahnschrift; /* Fuente */
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #ffffff; /* Blanco para el texto */
 }
+
+/* Fondo sólido de color */
 .colorsolido{
-    -fx-background-color: #5d1569;
+    -fx-background-color: #6a1b9a; /* Morado oscuro */
 }
+
+/* Estilo para los botones */
 .button {
-    -fx-background-color: #5d1569; /* Color sólido */
-    -fx-text-fill: #ffffff; /* Color del texto */
+    -fx-background-color: #6a1b9a; /* Morado oscuro */
+    -fx-text-fill: #ffffff; /* Blanco para el texto */
     -fx-font-size: 14px; /* Tamaño de la fuente */
     -fx-font-family: Bahnschrift; /* Fuente */
-    -fx-opacity: 0.9; /* Opacidad */
+    -fx-opacity: 0.9; /* Opacidad ajustada */
 }
 
+/* Efecto hover en los botones */
 .button:hover {
-    -fx-background-color: #b91949; /* Color sólido al pasar el mouse */
-    -fx-opacity: 1; /* Aumenta la opacidad al pasar el mouse */
+    -fx-background-color: #9c27b0; /* Rosa intenso al pasar el mouse */
+    -fx-opacity: 1; /* Opacidad al pasar el mouse */
 }
 
+/* Efecto al presionar los botones */
 .button:pressed {
-    -fx-background-color: #4c0f4e; /* Color más oscuro al presionar */
-    -fx-opacity: 1; /* Aumenta la opacidad al presionar */
+    -fx-background-color: #4a148c; /* Morado aún más oscuro al presionar */
+    -fx-opacity: 1; /* Opacidad al presionar */
 }
+
+/* Estilos para los mensajes (receptor) */
 .mensaje-receptor {
-    -fx-background-color: #e1ffc7; /* Fondo claro para el receptor */
+    -fx-background-color: #f8bbd0; /* Fondo rosa claro para el receptor */
     -fx-border-radius: 10px;
     -fx-padding: 10px;
     -fx-max-width: 300px; /* Ancho máximo */
     -fx-wrap-text: true; /* Texto que se ajusta */
 }
 
+/* Estilos para los mensajes (emisor) */
 .mensaje-emisor {
-    -fx-background-color: #dcf8c6; /* Fondo claro para el emisor */
+    -fx-background-color: #f3e5f5; /* Fondo lila claro para el emisor */
     -fx-border-radius: 10px;
     -fx-padding: 10px;
     -fx-max-width: 300px; /* Ancho máximo */
     -fx-wrap-text: true; /* Texto que se ajusta */
 }
 
+/* Color de texto del receptor */
 .mensaje-texto-receptor {
-    -fx-text-fill: #000; /* Color del texto del receptor */
+    -fx-text-fill: #000000; /* Texto negro para el receptor */
 }
 
+/* Color de texto del emisor */
 .mensaje-texto-emisor {
-    -fx-text-fill: #000; /* Color del texto del emisor */
+    -fx-text-fill: #000000; /* Texto negro para el emisor */
 }
 
+/* Estilo para los TextField (campos de texto) */
+.text-field {
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-text-fill: #000000; /* Texto negro */
+    -fx-font-size: 14px;
+    -fx-padding: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #b0b0b0; /* Gris suave */
+    -fx-border-width: 1px;
+}
+
+/* Estilo para ComboBox */
+.combo-box {
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-text-fill: #000000; /* Texto negro */
+    -fx-font-size: 14px;
+    -fx-padding: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #b0b0b0; /* Gris suave */
+    -fx-border-width: 1px;
+}
+
+/* Estilo para el ScrollPane (barra de desplazamiento) */
+.scroll-container {
+    -fx-background-color: #9c27b0; /* Fondo lila vibrante para el ScrollPane */
+    -fx-border-color: #7b1fa2; /* Morado intenso */
+    -fx-border-width: 1;
+    -fx-padding: 10px;
+    -fx-background-insets: 0;
+}
+
+/* Estilo para el contenido del GridPane */
+#productGrid {
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-padding: 10px;
+    -fx-alignment: center;
+}
+
+/* Estilo para los productos en el GridPane */
+.product-container {
+    -fx-background-color: #f3e5f5; /* Lila suave */
+    -fx-border-color: #d1d1d1;
+    -fx-border-radius: 5;
+    -fx-padding: 15px;
+    -fx-spacing: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 3, 0, 0, 0);
+    -fx-transition: background-color 0.3s;
+}
+
+/* Efecto hover para productos */
+.product-container:hover {
+    -fx-background-color: #9c27b0; /* Rosa intenso al pasar el mouse */
+    -fx-text-fill: white;
+}
+
+/* Estilo para el título de los productos */
+.product-titulo {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* Blanco */
+}
+
+/* Estilo para las etiquetas dentro de los productos */
+.label-style {
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #ffffff; /* Blanco */
+}

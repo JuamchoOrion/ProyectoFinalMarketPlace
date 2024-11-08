@@ -17,7 +17,7 @@ public class Producto implements Serializable {
     private Categoria categoria;
     private int likes;
     private Estado estado;
-    private List<Comentario> comentarios = new ArrayList<>();
+    private List<Comentario> comentarios ;
 
 
     public Producto(String nombre, String codigo, String imagen, String precio, LocalDateTime fechaPublicacion, Categoria categoria, int likes,Estado estado) {
@@ -29,6 +29,7 @@ public class Producto implements Serializable {
     this.categoria = categoria;
     this.likes = likes;
     this.estado =estado;
+    this.comentarios = new ArrayList<>();
 
 }
     public void incrementarMeGusta() {

@@ -145,11 +145,10 @@ public class MuroController {
         this.marketplace = marketplace;
     }
 
-    // Crear la vista de un producto en el GridPane
     private VBox crearVistaProducto(Producto producto) {
         VBox productBox = new VBox();
         productBox.setSpacing(10);
-        productBox.getStyleClass().add("container"); // Clase CSS para el contenedor
+        productBox.getStyleClass().add("container");
 
         // Imagen del producto
         ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(producto.getImagen())));
@@ -158,33 +157,61 @@ public class MuroController {
 
         // Nombre del producto
         Label nombreLabel = new Label(producto.getNombre());
-        nombreLabel.getStyleClass().add("titulo"); // Aplicar estilo de título
+        nombreLabel.getStyleClass().add("titulo");
 
         // Precio del producto
         Label precioLabel = new Label("€" + producto.getPrecio());
-        precioLabel.getStyleClass().add("label-style"); // Estilo de etiqueta
+        precioLabel.getStyleClass().add("label-style");
 
         // Recuento de likes
         Label likesLabel = new Label("Likes: " + producto.getLikes());
-        likesLabel.getStyleClass().add("label-style"); // Estilo de etiqueta
+        likesLabel.getStyleClass().add("label-style");
 
-        // Agregar todos los elementos a la caja del producto
+        // Agregar elementos a la caja del producto
         productBox.getChildren().addAll(imageView, nombreLabel, precioLabel, likesLabel);
 
         // Cambiar color al pasar el mouse
         productBox.setOnMouseEntered(event -> {
-            productBox.setStyle("-fx-background-color: #5d1569;"); // Cambia al color más oscuro
+            productBox.setStyle("-fx-background-color: #5d1569;");
         });
-
         productBox.setOnMouseExited(event -> {
-            productBox.setStyle(""); // Vuelve al estilo original
+            productBox.setStyle("");
         });
 
-        // Hacer clic en el producto
         productBox.setOnMouseClicked(event -> {
+            System.out.println("Clic en el producto: " + producto.getNombre()); // Verifica que el clic se detecte
             logger.logInfo("Clic en el producto: " + producto.getNombre());
+            abrirProductoView(producto);
         });
 
         return productBox;
     }
+    private void abrirProductoView(Producto producto) {
+        try {
+            if (producto == null) {
+                System.out.println("Error: El producto es nulo.");
+                return;
+            } else {
+                System.out.println("Producto recibido: " + producto.getNombre());
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProductoView.fxml"));
+            Parent root = loader.load();
+
+            ProductoViewController productoViewController = loader.getController();
+            productoViewController.setProducto(producto);
+
+            Stage currentStage = (Stage) chat.getScene().getWindow();
+            Scene currentScene = new Scene(root);
+            currentStage.setScene(currentScene);
+            currentStage.show();
+
+        } catch (IOException e) {
+            System.out.println("Error al cargar la vista FXML.");
+            e.printStackTrace();  // Imprimir el stack trace completo
+        }
+    }
+
+
+
 }

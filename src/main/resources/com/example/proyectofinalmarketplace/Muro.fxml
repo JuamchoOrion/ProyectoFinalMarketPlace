@@ -5,25 +5,33 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
-
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="backgroundColor" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofinalmarketplace.MuroController">
     <children>
         <!-- Barra superior -->
         <AnchorPane layoutY="-49.0" prefHeight="111.0" prefWidth="600.0" styleClass="colorsolido" stylesheets="@Style.css">
             <children>
-            <Button fx:id="chat" layoutX="55.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
-            <Button fx:id="perfil" layoutX="113.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Perfil" />
-            <Label fx:id="LabelNombreUsuario" layoutX="481.0" layoutY="69.0" styleClass="label-style" stylesheets="@Style.css" />
-            <TextField fx:id="inputBuscar" layoutX="246.0" layoutY="65.0" />
-            <Label layoutX="163.0" layoutY="69.0" prefHeight="17.0" prefWidth="74.0" styleClass="label-style" stylesheets="@Style.css" text="Buscar Producto" />
-            <Button fx:id="buscar" layoutX="414.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
-              <Button fx:id="cerrarButton" layoutX="481.0" layoutY="65.0" mnemonicParsing="false" text="Cerrar sesión" />
-         </children></AnchorPane>
+                <Button fx:id="chat" layoutX="55.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
+                <Button fx:id="perfil" layoutX="113.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Perfil" />
+                <Label fx:id="LabelNombreUsuario" layoutX="481.0" layoutY="69.0" styleClass="label-style" stylesheets="@Style.css" />
+                <TextField fx:id="inputBuscar" layoutX="246.0" layoutY="65.0" />
+                <Label layoutX="163.0" layoutY="69.0" prefHeight="17.0" prefWidth="74.0" styleClass="label-style" stylesheets="@Style.css" text="Buscar Producto" />
+                <Button fx:id="buscar" layoutX="414.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
+                <Button fx:id="cerrarButton" layoutX="481.0" layoutY="65.0" mnemonicParsing="false" text="Cerrar sesión" />
+            </children>
+        </AnchorPane>
 
-        <!-- GridPane para los productos -->
-        <GridPane fx:id="productGrid" alignment="CENTER" hgap="10" layoutX="10.0" layoutY="120.0" vgap="10">
-            <!-- Los productos se agregarán dinámicamente desde el controlador -->
-        </GridPane>
-      <Label layoutX="219.0" layoutY="70.0" styleClass="titulo" stylesheets="@Style.css" text="PRODUCTOS" />
+        <!-- Título de Productos -->
+        <Label layoutX="219.0" layoutY="70.0" styleClass="titulo" stylesheets="@Style.css" text="PRODUCTOS" />
+
+        <!-- ScrollPane para permitir el desplazamiento en el Grid -->
+        <ScrollPane fx:id="scrollPane" layoutX="10.0" layoutY="120.0" prefHeight="250.0" prefWidth="580.0" styleClass="scroll-container" stylesheets="@Style.css">
+            <content>
+                <GridPane fx:id="productGrid" alignment="CENTER" hgap="10" vgap="10">
+                    <!-- Los productos se agregarán dinámicamente desde el controlador -->
+                </GridPane>
+            </content>
+        </ScrollPane>
     </children>
 </AnchorPane>
+
