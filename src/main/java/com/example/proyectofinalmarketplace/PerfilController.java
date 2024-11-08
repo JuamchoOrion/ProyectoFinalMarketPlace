@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -30,7 +31,15 @@ public class PerfilController {
     private Label priceProduct1, priceProduct2, priceProduct3;
 
     @FXML
+    private ComboBox<Vendedor> comboSolicitudes;
+
+    @FXML
     private Button homeButton;
+    @FXML
+    private Button chulitoButton;
+
+    @FXML
+    private Button cancelarButton;
 
     @FXML
     private Label nombreUsuario;  // Etiqueta para mostrar el nombre de usuario
@@ -49,28 +58,26 @@ public class PerfilController {
 
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario usuario = marketplace.getUsuarioActual();
-    private Vendedor vendedor;
+    Vendedor vendedor = (Vendedor) usuario;
     Utilities logger = Utilities.getInstance(); // Instancia del logger
 
     @FXML
     public void initialize() {
-        if (usuario instanceof Vendedor) {
-            vendedor = (Vendedor) usuario;
-            nombreUsuario.setText("ID: " + vendedor.getCedula() + ", Nombre: " + vendedor.getNombre()); // Configura el nombre de usuario
-            logger.logInfo("Perfil cargado para el vendedor: " + vendedor.getNombre());
-            cargarProductos();
-            mostrarTopProductos();
+        nombreUsuario.setText("ID: " + vendedor.getCedula() + ", Nombre: " + vendedor.getNombre()); // Configura el nombre de usuario
+        logger.logInfo("Perfil cargado para el vendedor: " + vendedor.getNombre());
+        cargarProductos();
+        mostrarTopProductos();
 
-            homeButton.setOnAction(event -> {
-                try {
-                    volverHome();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        homeButton.setOnAction(event -> {
+            try {
+                volverHome();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             });
-        } else {
-            logger.logWarning("El usuario actual no es un vendedor.");
-        }
+        List<Vendedor> solicitudesPendientes = vendedor.getSolicitudesPendientes();
+        comboSolicitudes.getItems().addAll(solicitudesPendientes);
+
 
         buscarVendedor.setOnAction(event -> {
             try {
@@ -88,6 +95,31 @@ public class PerfilController {
                 throw new RuntimeException(e);
             }
         });
+        chulitoButton.setOnAction(event -> {
+            try {
+                aceptar();
+            } catch (IOException e) {
+                logger.logWarning("Error al intentar crear un producto: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+        });
+        cancelarButton.setOnAction(event -> {
+            try {
+                rechazar();
+            } catch (IOException e) {
+                logger.logWarning("Error al intentar crear un producto: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    private void aceptar() throws IOException {
+        Vendedor vendedorAAceptar = comboSolicitudes.getValue();
+        vendedor.aceptarSolicitud(vendedorAAceptar);
+        System.out.println(vendedor.getListaContactos());
+    }
+    private void rechazar() throws IOException {
+        Vendedor vendedorAAceptar = (Vendedor) comboSolicitudes.getValue();
+        vendedor.rechazarSolicitud(vendedorAAceptar);
     }
     private void buscar() throws IOException {
         String cedula = inputCedula.getText();

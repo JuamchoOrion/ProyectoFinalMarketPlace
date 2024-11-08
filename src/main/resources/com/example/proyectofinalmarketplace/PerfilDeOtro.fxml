@@ -14,7 +14,7 @@
       <AnchorPane layoutY="55.0" prefHeight="346.0" prefWidth="150.0" styleClass="colorsolido" stylesheets="@Style.css">
          <children>
             <VBox fx:id="topProductosVBox" layoutX="24.0" layoutY="100.0" spacing="5.0" />
-            <Button fx:id="AggProducto" layoutX="12.0" layoutY="158.0" mnemonicParsing="false" stylesheets="@Style.css" text="Agregar Contacto" />
+            <Button fx:id="aggContactoButton" layoutX="12.0" layoutY="158.0" mnemonicParsing="false" stylesheets="@Style.css" text="Agregar contacto" />
          </children>
       </AnchorPane>
       <AnchorPane layoutY="-1.0" prefHeight="56.0" prefWidth="600.0" styleClass="colorsolido">

@@ -37,8 +37,12 @@ public class PerfilDeOtroController {
     @FXML
     private Button buscarVendedor;
 
+    @FXML
+    private Button aggContactoButton;
+
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario usuario = marketplace.getUsuarioActual();
+    Vendedor vendedor = (Vendedor) usuario;
     private Vendedor vendedorPorAgregar = marketplace.getVendedorPorAgregar();
     Utilities logger = Utilities.getInstance(); // Instancia del logger
 
@@ -52,6 +56,14 @@ public class PerfilDeOtroController {
             try {
                 volverHome();
             } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        aggContactoButton.setOnAction(event -> {
+            try {
+                enviarSolicitud();
+            } catch (Exception e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         });
@@ -81,6 +93,10 @@ public class PerfilDeOtroController {
         stage.setScene(scene);
         stage.show();
 
+    }
+    private void enviarSolicitud() throws Exception {
+            vendedor.enviarSolicitudContacto(vendedorPorAgregar);
+            System.out.println(vendedor.getNombre());
     }
 
     private void volverHome() throws IOException {
