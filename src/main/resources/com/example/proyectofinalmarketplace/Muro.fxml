@@ -15,7 +15,7 @@
                 <Button fx:id="perfil" layoutX="113.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Perfil" />
                 <Label fx:id="LabelNombreUsuario" layoutX="481.0" layoutY="69.0" styleClass="label-style" stylesheets="@Style.css" />
                 <TextField fx:id="inputBuscar" layoutX="246.0" layoutY="65.0" />
-                <Label layoutX="163.0" layoutY="69.0" prefHeight="17.0" prefWidth="74.0" styleClass="label-style" stylesheets="@Style.css" text="Buscar Producto" />
+                <Label layoutX="163.0" layoutY="69.0" prefHeight="17.0" prefWidth="74.0" styleClass="label-style" stylesheets="@Style.css" text="Buscar Usuario" />
                 <Button fx:id="buscar" layoutX="414.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
                 <Button fx:id="cerrarButton" layoutX="481.0" layoutY="65.0" mnemonicParsing="false" text="Cerrar sesión" />
             </children>

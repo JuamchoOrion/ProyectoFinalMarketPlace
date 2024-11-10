@@ -21,7 +21,7 @@ public class Vendedor extends Usuario implements Serializable{
     private List<Vendedor> listaContactos;
     private List<Producto> listaProductos;
     private List<Vendedor> solicitudesPendientes = new ArrayList<>();
-    transient  Utilities logger = Utilities.getInstance();
+    private  transient  Utilities logger;
 
     public void setListaContactos(List<Vendedor> listaContactos) {
         this.listaContactos = listaContactos;
@@ -46,6 +46,7 @@ public class Vendedor extends Usuario implements Serializable{
         this.listaContactos = new ArrayList<>();
         this.listaProductos = new ArrayList<>();
         this.cedula = cedula;
+        this.logger = Utilities.getInstance();
     }
 
     public String getDescripcion() {

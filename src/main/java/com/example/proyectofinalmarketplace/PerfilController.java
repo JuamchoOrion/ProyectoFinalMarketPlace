@@ -50,6 +50,9 @@ public class PerfilController {
     private VBox topProductosVBox; // VBox para los 10 productos más vendidos
 
     @FXML
+    private Button chatButton;
+
+    @FXML
     private Button AggProducto;
 
     @FXML
@@ -77,6 +80,13 @@ public class PerfilController {
                 throw new RuntimeException(e);
             }
             });
+        chatButton.setOnAction(event -> {
+            try {
+                chat();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         List<Vendedor> solicitudesPendientes = vendedor.getSolicitudesPendientes();
         comboSolicitudes.getItems().addAll(solicitudesPendientes);
 
@@ -138,6 +148,16 @@ public class PerfilController {
         stage.setScene(scene);
         stage.show();
 
+    }
+    private void chat() throws IOException {
+        logger.logInfo("El vendedor " + vendedor.getNombre() + " está ingresando al chat.");
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) chatButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
     private void crearProducto() throws IOException {
         logger.logInfo("El vendedor " + vendedor.getNombre() + " está intentando agregar un nuevo producto.");

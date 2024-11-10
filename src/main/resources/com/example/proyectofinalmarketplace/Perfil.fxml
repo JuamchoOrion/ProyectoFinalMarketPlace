@@ -35,7 +35,7 @@
         <!-- Barra superior con opciones de navegación y búsqueda -->
         <AnchorPane layoutY="-1.0" prefHeight="56.0" prefWidth="600.0" styleClass="colorsolido">
             <children>
-                <Button layoutX="112.0" layoutY="15.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
+                <Button fx:id="chatButton" layoutX="112.0" layoutY="15.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
                 <TextField fx:id="inputCedula" layoutX="344.0" layoutY="17.0" />
                 <Label layoutX="241.0" layoutY="21.0" styleClass="label-style" text="Buscar Usuario" />
                 <Button fx:id="homeButton" layoutX="34.0" layoutY="16.0" mnemonicParsing="false" stylesheets="@Style.css" text="Home" />

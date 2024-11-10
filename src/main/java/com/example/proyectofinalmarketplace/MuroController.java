@@ -65,6 +65,14 @@ public class MuroController {
                 throw new RuntimeException(e);
             }
         });
+        buscar.setOnAction(event -> {
+            try {
+                buscarVendedor();
+            } catch (IOException e) {
+                logger.logWarning("Error al intentar buscar un vendedor: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+        });
 
         List<Producto> productos = new ArrayList<>();
 
@@ -105,6 +113,22 @@ public class MuroController {
                 row++;
             }
         }
+    }
+    private void buscarVendedor() throws IOException {
+        String cedula = inputBuscar.getText();
+
+        for (Vendedor vendedor : marketplace.getVendedores()) {
+            if (vendedor.getCedula().equals(cedula)) {
+                marketplace.setVendedorPorAgregar(vendedor);
+            }
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilDeOtro.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) buscar.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     private void chatVista() throws IOException {

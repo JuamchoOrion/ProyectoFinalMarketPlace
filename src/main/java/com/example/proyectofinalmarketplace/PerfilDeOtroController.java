@@ -30,6 +30,8 @@ public class PerfilDeOtroController {
     @FXML
     private Label nombreUsuario;  // Etiqueta para mostrar el nombre de usuario
 
+    @FXML
+    private Button chatButton;
 
     @FXML
     private TextField inputCedula;
@@ -51,6 +53,14 @@ public class PerfilDeOtroController {
         nombreUsuario.setText("ID: " + vendedorPorAgregar.getCedula() + ", Nombre: " + vendedorPorAgregar.getNombre());
         logger.logInfo("Perfil cargado para el vendedor: " + vendedorPorAgregar.getNombre());
         cargarProductos();
+
+        chatButton.setOnAction(event -> {
+            try {
+                chat();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         homeButton.setOnAction(event -> {
             try {
@@ -77,6 +87,16 @@ public class PerfilDeOtroController {
             }
         });
 
+    }
+    private void chat() throws IOException {
+        logger.logInfo("El vendedor " + vendedor.getNombre() + " está ingresando al chat.");
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) chatButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
     private void buscar() throws IOException {
         String cedula = inputCedula.getText();

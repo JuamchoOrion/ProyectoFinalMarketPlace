@@ -1,11 +1,15 @@
 package com.example.proyectofinalmarketplace;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ChatController {
@@ -19,7 +23,7 @@ public class ChatController {
     private Button chatsBtn;
 
     @FXML
-    private Button chat;
+    private Button chatButton;
 
     @FXML
     private Button perfil;
@@ -28,10 +32,10 @@ public class ChatController {
     private Label LabelNombreUsuario;
 
     @FXML
-    private TextField inputBuscar;
+    private TextField inputCedula;
 
     @FXML
-    private Button buscar;
+    private Button buscarVendedor;
 
     @FXML
     private Button cerrarButton;
@@ -45,6 +49,35 @@ public class ChatController {
     public void initialize() {
     List<Vendedor> contactos = vendedorActual.getListaContactos();
     comboContactos.getItems().addAll(contactos);
+        perfil.setOnAction(event -> {
+            try {
+                navegarPerfil();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        chatButton.setOnAction(event -> {
+            try {
+                navegarChat();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        cerrarButton.setOnAction(event -> {
+            try {
+                cerrarSesion();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        buscarVendedor.setOnAction(event -> {
+            try {
+                buscar();
+            } catch (IOException e) {
+                logger.logWarning("Error al intentar buscar un vendedor: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     // Método para manejar el clic en el botón "Iniciar Chat"
@@ -61,26 +94,55 @@ public class ChatController {
 
     // Método para manejar el clic en el botón "Chat" de navegación
     @FXML
-    private void navegarChat() {
-        // Código para cambiar a la vista de chat
+    private void navegarChat() throws IOException {
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) chatButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     // Método para manejar el clic en el botón "Perfil" de navegación
     @FXML
-    private void navegarPerfil() {
-        // Código para cambiar a la vista de perfil
+    private void navegarPerfil() throws IOException {
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Perfil.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) perfil.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     // Método para manejar el clic en el botón "Buscar"
     @FXML
-    private void buscarProducto() {
-        String query = inputBuscar.getText();
-        // Código para buscar el producto en base al texto ingresado
+    private void buscar() throws IOException {
+        String cedula = inputCedula.getText();
+
+        for (Vendedor vendedor : marketplace.getVendedores()) {
+            if (vendedor.getCedula().equals(cedula)) {
+                marketplace.setVendedorPorAgregar(vendedor);
+            }
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilDeOtro.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) buscarVendedor.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     // Método para manejar el clic en el botón "Cerrar sesión"
     @FXML
-    private void cerrarSesion() {
-        // Código para cerrar la sesión del usuario y volver a la pantalla de login
+    private void cerrarSesion() throws IOException {
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) cerrarButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }
