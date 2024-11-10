@@ -61,6 +61,7 @@ public class ProductoViewController {
     private Usuario usuario = marketplace.getUsuarioActual();
     private Vendedor usuarioV = (Vendedor) usuario;
     private Producto producto;
+    Utilities logger = Utilities.getInstance();
 
     // Este método se ejecuta al inicializar la vista
     @FXML
@@ -85,6 +86,34 @@ public class ProductoViewController {
         });
         agregarComentarioBtn.setOnAction(event -> {
             handleAgregarComentarioButtonAction();
+        });
+        chat.setOnAction(event -> {
+            try{
+                handleChatButtonAction();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        buscar.setOnAction(event -> {
+            try {
+                handleBuscarButtonAction();
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        });
+        cerrarButton.setOnAction(event -> {
+            try{
+                handleCerrarButtonAction();
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        });
+        perfil.setOnAction(event -> {
+            try{
+                handlePerfilButtonAction();
+            }catch(IOException e){
+                throw new RuntimeException(e);
+            }
         });
     }
 
@@ -130,26 +159,61 @@ public class ProductoViewController {
 
     // Método que se ejecuta al hacer clic en el botón de chat
     @FXML
-    private void handleChatButtonAction() {
-
+    private void handleChatButtonAction() throws IOException {
+        logger.logInfo("El vendedor " + ((Vendedor) usuario).getNombre() + " está accediendo a la vista de chat.");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Chat.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) chat.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     // Método que se ejecuta al hacer clic en el botón de perfil
     @FXML
-    private void handlePerfilButtonAction() {
-
+    private void handlePerfilButtonAction() throws IOException {
+        logger.logInfo("El vendedor " + ((Vendedor) usuario).getNombre() + " está accediendo a la vista de perfil.");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Perfil.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) perfil.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     // Método que se ejecuta al hacer clic en el botón de buscar
     @FXML
-    private void handleBuscarButtonAction() {
-        System.out.println("Buscando productos...");
+    private void handleBuscarButtonAction() throws IOException {
+        String cedula = inputBuscar.getText();
+
+        for (Vendedor vendedor : marketplace.getVendedores()) {
+            if (vendedor.getCedula().equals(cedula)) {
+                marketplace.setVendedorPorAgregar(vendedor);
+            }
+        }
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PerfilDeOtro.fxml"));
+        Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) buscar.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     // Método que se ejecuta al hacer clic en el botón de cerrar sesión
     @FXML
-    private void handleCerrarButtonAction() {
-        System.out.println("Cerrando sesión...");
+    private void handleCerrarButtonAction() throws IOException {
+        if (usuario instanceof Vendedor) {
+            logger.logInfo("El vendedor " + ((Vendedor) usuario).getNombre() + " está cerrando sesión y navegando a Inicio.fxml.");
+        } else {
+            logger.logWarning("El usuario actual no es un vendedor al cerrar sesión.");
+        }
+
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) cerrarButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     // Método que se ejecuta al hacer clic en el botón de comprar
@@ -182,7 +246,6 @@ public class ProductoViewController {
     // Método para establecer el producto desde el controlador anterior
     public void setProducto(Producto producto) {
         this.producto = producto;
-        // Al establecer el producto, volvemos a actualizar la vista
         configurarProducto();
     }
 }

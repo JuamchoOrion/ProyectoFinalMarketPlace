@@ -10,46 +10,18 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="backgroundColor" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofinalmarketplace.MensajeriaController">
     <children>
-        <!-- Barra superior -->
-        <AnchorPane layoutY="-41.0" prefHeight="111.0" prefWidth="600.0" styleClass="colorsolido" stylesheets="@Style.css">
-            <children>
-                <Button layoutX="55.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chats" />
-                <Button layoutX="113.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Perfil" />
-                <Button layoutX="1.0" layoutY="64.0" mnemonicParsing="false" stylesheets="@Style.css" text="Home" />
-                <Label fx:id="LabelNombreUsuario" layoutX="481.0" layoutY="69.0" styleClass="label-style" stylesheets="@Style.css" />
-                <Label layoutX="163.0" layoutY="69.0" prefHeight="17.0" prefWidth="74.0" styleClass="label-style" stylesheets="@Style.css" text="Buscar Vendedor" />
-                <TextField layoutX="246.0" layoutY="65.0" />
-                <Button layoutX="414.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
-            </children>
-        </AnchorPane>
 
         <!-- Título del chat -->
-        <Label layoutX="86.0" layoutY="78.0" styleClass="titulo" stylesheets="@Style.css" text="CHAT VENDEDOR A VENDEDOR" />
+        <Label layoutX="105.0" layoutY="70.0" styleClass="titulo" stylesheets="@Style.css" text="CHAT " />
 
         <!-- ScrollPane para mostrar los mensajes -->
-        <ScrollPane layoutX="20.0" layoutY="114.0" prefHeight="200.0" prefWidth="560.0" styleClass="container" stylesheets="@Style.css">
-            <VBox spacing="10">
-                <!-- Mensaje del receptor -->
-                <HBox styleClass="mensaje-receptor" spacing="5">
-                    <Label text="Vendedor A" styleClass="label-style" />
-                    <Label text="Hola, ¿cómo estás?" styleClass="mensaje-texto-receptor" />
-                </HBox>
-
-                <!-- Mensaje del emisor -->
-                <HBox styleClass="mensaje-emisor" spacing="5" alignment="CENTER_RIGHT">
-                    <Label text="Vendedor B" styleClass="label-style" />
-                    <Label text="¡Todo bien! ¿Y tú?" styleClass="mensaje-texto-emisor" />
-                </HBox>
-
-                <!-- Puedes agregar más mensajes aquí para mostrar el desplazamiento -->
-                <HBox styleClass="mensaje-receptor" spacing="5">
-                    <Label text="Vendedor A" styleClass="label-style" />
-                    <Label text="Me alegra escuchar eso." styleClass="mensaje-texto-receptor" />
-                </HBox>
-
-                <HBox styleClass="mensaje-emisor" spacing="5" alignment="CENTER_RIGHT">
-                    <Label text="Vendedor B" styleClass="label-style" />
-                    <Label text="¿Te gustaría discutir un negocio?" styleClass="mensaje-texto-emisor" />
+        <ScrollPane layoutX="20.0" layoutY="114.0" prefHeight="200.0" prefWidth="480.0" styleClass="container" stylesheets="@Style.css">
+            <!-- Contenedor para los mensajes con fx:id para acceder desde el controlador -->
+            <VBox fx:id="messageContainer" spacing="10">
+                <!-- Ejemplo de mensaje estático para mostrar el formato (puedes eliminarlo) -->
+                <HBox spacing="5" styleClass="mensaje-receptor">
+                    <Label styleClass="label-style" text="Vendedor A" />
+                    <Label styleClass="mensaje-texto-receptor" text="Hola, ¿cómo estás?" />
                 </HBox>
             </VBox>
         </ScrollPane>
@@ -58,6 +30,19 @@
         <TextField fx:id="messageInput" layoutX="14.0" layoutY="340.0" prefHeight="40.0" prefWidth="480.0" promptText="Escribe tu mensaje aquí..." styleClass="label-style" />
 
         <!-- Botón para enviar mensaje -->
-        <Button layoutX="505.0" layoutY="347.0" mnemonicParsing="false" stylesheets="@Style.css" text="Enviar" />
+        <Button fx:id="enviarBtn" layoutX="505.0" layoutY="347.0" mnemonicParsing="false" stylesheets="@Style.css" text="Enviar" onAction="#handleSendMessage" />
+
+        <AnchorPane layoutX="-5.0" layoutY="-41.0" prefHeight="111.0" prefWidth="620.0" styleClass="colorsolido" stylesheets="@Style.css">
+            <children>
+                <Button fx:id="chat" layoutX="55.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
+                <Button fx:id="perfil" layoutX="113.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Perfil" />
+                <Label fx:id="LabelNombreUsuario" layoutX="481.0" layoutY="69.0" styleClass="label-style" stylesheets="@Style.css" />
+                <TextField fx:id="inputBuscar" layoutX="246.0" layoutY="65.0" />
+                <Label layoutX="163.0" layoutY="69.0" prefHeight="17.0" prefWidth="74.0" styleClass="label-style" stylesheets="@Style.css" text="Buscar Producto" />
+                <Button fx:id="buscar" layoutX="414.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
+                <Button fx:id="cerrarButton" layoutX="481.0" layoutY="65.0" mnemonicParsing="false" text="Cerrar sesión" />
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>
+
