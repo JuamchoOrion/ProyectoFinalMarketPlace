@@ -11,11 +11,11 @@
    <children>
       <AnchorPane layoutY="-41.0" prefHeight="111.0" prefWidth="600.0" styleClass="colorsolido" stylesheets="@Style.css">
          <children>
-            <Button fx:id="chat" layoutX="55.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
-            <Button fx:id="perfil" layoutX="113.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Perfil" />
+            <Button fx:id="chat" layoutX="14.0" layoutY="63.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
+            <Button fx:id="perfil" layoutX="75.0" layoutY="63.0" mnemonicParsing="false" stylesheets="@Style.css" text="Perfil" />
             <Label fx:id="LabelNombreUsuario" layoutX="481.0" layoutY="69.0" styleClass="label-style" stylesheets="@Style.css" />
             <TextField fx:id="inputBuscar" layoutX="246.0" layoutY="65.0" />
-            <Label fx:id="labelBuscarProducto" layoutX="163.0" layoutY="69.0" prefHeight="17.0" prefWidth="74.0" styleClass="label-style" stylesheets="@Style.css" text="Buscar Producto" />
+            <Label fx:id="labelBuscarProducto" layoutX="137.0" layoutY="68.0" prefHeight="18.0" prefWidth="92.0" styleClass="label-style" stylesheets="@Style.css" text="Buscar Producto" />
             <Button fx:id="buscar" layoutX="414.0" layoutY="65.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
             <Button fx:id="cerrarButton" layoutX="481.0" layoutY="65.0" mnemonicParsing="false" text="Cerrar sesión" />
          </children>
@@ -31,7 +31,7 @@
       <Label id="likesLabel" fx:id="likesLabel" layoutX="51.0" layoutY="344.0" styleClass="label-style" text="Likes" />
       <Button fx:id="likesButton" layoutX="199.0" layoutY="328.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="34.0" stylesheets="@Style.css" text="❤" />
       <Text layoutX="133.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Label fx:id="FechaHora" layoutX="369.0" layoutY="117.0" prefHeight="23.0" prefWidth="169.0" />
+      <Label fx:id="FechaHora" layoutX="369.0" layoutY="117.0" prefHeight="23.0" prefWidth="169.0" textFill="WHITE" />
       <Label fx:id="fechaHora" layoutX="369.0" layoutY="90.0" styleClass="label-style" text="Fecha y hora de publicación" />
    </children>
 </AnchorPane>

@@ -19,35 +19,35 @@
       </AnchorPane>
       <AnchorPane layoutY="-1.0" prefHeight="56.0" prefWidth="600.0" styleClass="colorsolido">
          <children>
-            <Button fx:id="chatButton" layoutX="112.0" layoutY="15.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
-            <TextField fx:id="inputCedula" layoutX="344.0" layoutY="17.0" />
-            <Label layoutX="241.0" layoutY="21.0" styleClass="label-style" text="Buscar Usuario" />
-            <Button fx:id="homeButton" layoutX="34.0" layoutY="16.0" mnemonicParsing="false" stylesheets="@Style.css" text="Home" />
+            <Button fx:id="chatButton" layoutX="98.0" layoutY="15.0" mnemonicParsing="false" stylesheets="@Style.css" text="Chat" />
+            <TextField fx:id="inputCedula" layoutX="300.0" layoutY="15.0" />
+            <Label layoutX="204.0" layoutY="21.0" styleClass="label-style" text="Buscar Usuario" />
+            <Button fx:id="homeButton" layoutX="26.0" layoutY="15.0" mnemonicParsing="false" stylesheets="@Style.css" text="Home" />
             <Button fx:id="buscarVendedor" layoutX="507.0" layoutY="17.0" mnemonicParsing="false" stylesheets="@Style.css" text="Buscar" />
          </children>
       </AnchorPane>
-      <Label fx:id="nombreUsuario" layoutX="316.0" layoutY="63.0" styleClass="titulo" text="NOMBRE DE USUARIO" />
+      <Label fx:id="nombreUsuario" layoutX="230.0" layoutY="64.0" styleClass="titulo" text="NOMBRE DE USUARIO" />
       <HBox layoutX="230.0" layoutY="100.0" spacing="20">
          <children>
             <VBox alignment="CENTER">
                <children>
                   <ImageView fx:id="imageProduct1" fitHeight="100.0" fitWidth="100.0" />
                   <Label fx:id="nameProduct1" text="Producto 1" />
-                  <Label fx:id="priceProduct1" text="Precio: €XX" />
+                  <Label id="precioOtro" fx:id="priceProduct1" text="Precio: €XX" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
                   <ImageView fx:id="imageProduct2" fitHeight="100.0" fitWidth="100.0" />
                   <Label fx:id="nameProduct2" text="Producto 2" />
-                  <Label fx:id="priceProduct2" text="Precio: €XX" />
+                  <Label id="PrecioOtro2" fx:id="priceProduct2" text="Precio: €XX" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
                   <ImageView fx:id="imageProduct3" fitHeight="100.0" fitWidth="100.0" />
                   <Label fx:id="nameProduct3" text="Producto 3" />
-                  <Label fx:id="priceProduct3" text="Precio: €XX" />
+                  <Label id="precioOtro3" fx:id="priceProduct3" text="Precio: €XX" />
                </children>
             </VBox>
          </children>

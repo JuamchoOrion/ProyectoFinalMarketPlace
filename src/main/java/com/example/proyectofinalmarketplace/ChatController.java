@@ -59,8 +59,7 @@ public class ChatController {
         });
         iniciarBtn.setOnAction(event -> {
             try {
-                navegarChat();
-                iniciarChat();
+                iniciarMensajeria();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -154,6 +153,15 @@ public class ChatController {
         FXMLLoader loader;
         Scene scene;
         loader = new FXMLLoader(getClass().getResource("Inicio.fxml"));
+        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+        Stage stage = (Stage) cerrarButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+    private void iniciarMensajeria() throws IOException {
+        FXMLLoader loader;
+        Scene scene;
+        loader = new FXMLLoader(getClass().getResource("Mensajeria.fxml"));
         scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
         Stage stage = (Stage) cerrarButton.getScene().getWindow();
         stage.setScene(scene);
