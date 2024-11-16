@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="backgroundColor" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectofinalmarketplace.ProductoViewController">
    <children>
@@ -27,6 +28,10 @@
       <Label fx:id="comentarioLabel" layoutX="388.0" layoutY="162.0" styleClass="label-style" text="Comentario:" />
       <Button fx:id="volverBtn" layoutX="501.0" layoutY="344.0" mnemonicParsing="false" stylesheets="@Style.css" text="Volver" />
       <Label fx:id="precioLabel" layoutX="51.0" layoutY="321.0" styleClass="label-style" text="precio" />
-      <Label fx:id="likesLabel" layoutX="51.0" layoutY="344.0" styleClass="label-style" text="Likes" />
+      <Label id="likesLabel" fx:id="likesLabel" layoutX="51.0" layoutY="344.0" styleClass="label-style" text="Likes" />
+      <Button fx:id="likesButton" layoutX="199.0" layoutY="328.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="34.0" stylesheets="@Style.css" text="❤" />
+      <Text layoutX="133.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Label fx:id="FechaHora" layoutX="369.0" layoutY="117.0" prefHeight="23.0" prefWidth="169.0" />
+      <Label fx:id="fechaHora" layoutX="369.0" layoutY="90.0" styleClass="label-style" text="Fecha y hora de publicación" />
    </children>
 </AnchorPane>

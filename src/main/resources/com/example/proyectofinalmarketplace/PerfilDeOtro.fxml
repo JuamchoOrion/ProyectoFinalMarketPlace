@@ -52,35 +52,11 @@
             </VBox>
          </children>
       </HBox>
-      <ScrollPane hbarPolicy="NEVER" layoutX="230.0" layoutY="250.0" prefHeight="120.0" prefWidth="300.0" styleClass="container" stylesheets="@Style.css" vbarPolicy="AS_NEEDED">
+      <!-- Caja de comentarios en la parte inferior -->
+      <ScrollPane fx:id="comentariosScrollPane" hbarPolicy="NEVER" layoutX="230.0" layoutY="250.0" prefHeight="120.0" prefWidth="300.0" styleClass="container" stylesheets="@Style.css" vbarPolicy="AS_NEEDED">
          <content>
             <VBox fx:id="vboxComentarios" alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10;">
-               <children>
-                  <HBox spacing="10">
-                     <children>
-                        <Label style="-fx-font-weight: bold;" text="Usuario 1: " />
-                        <Label text="Excelente vendedor, todo llegó a tiempo." />
-                     </children>
-                  </HBox>
-                  <HBox spacing="10">
-                     <children>
-                        <Label style="-fx-font-weight: bold;" text="Usuario 2: " />
-                        <Label text="El producto no cumplió con mis expectativas." />
-                     </children>
-                  </HBox>
-                  <HBox spacing="10">
-                     <children>
-                        <Label style="-fx-font-weight: bold;" text="Usuario 3: " />
-                        <Label text="Muy buen servicio, repetiría sin dudar." />
-                     </children>
-                  </HBox>
-                  <HBox spacing="10">
-                     <children>
-                        <Label style="-fx-font-weight: bold;" text="Usuario 4: " />
-                        <Label text="Comunicación rápida y efectiva." />
-                     </children>
-                  </HBox>
-               </children>
+               <!-- Los comentarios se añadirán dinámicamente desde el controlador -->
             </VBox>
          </content>
       </ScrollPane>

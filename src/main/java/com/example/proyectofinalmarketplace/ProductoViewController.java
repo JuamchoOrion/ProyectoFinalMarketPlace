@@ -12,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ProductoViewController {
 
@@ -57,15 +59,26 @@ public class ProductoViewController {
     @FXML
     private Label precioLabel;
 
+    @FXML
+    private Button likesButton;
+
+    @FXML
+    private Label FechaHora;
+
+
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario usuario = marketplace.getUsuarioActual();
     private Vendedor usuarioV = (Vendedor) usuario;
     private Producto producto;
     Utilities logger = Utilities.getInstance();
+    private boolean esLike = false;
+
+
 
     // Este método se ejecuta al inicializar la vista
     @FXML
     private void initialize() {
+
         // Verifica si el producto no es nulo y lo configura
         if (producto != null) {
             configurarProducto();
@@ -76,6 +89,13 @@ public class ProductoViewController {
         volverBtn.setOnAction(event -> {
             try {
                 handleVolverButtonAction();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        likesButton.setOnAction(event -> {
+            try {
+                likear(producto);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -115,6 +135,7 @@ public class ProductoViewController {
                 throw new RuntimeException(e);
             }
         });
+
     }
 
     // Configura los detalles del producto en la vista
@@ -246,6 +267,24 @@ public class ProductoViewController {
     // Método para establecer el producto desde el controlador anterior
     public void setProducto(Producto producto) {
         this.producto = producto;
+        LocalDateTime fechaPublicacion = producto.getFechaPublicacion();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String fechaComoString = fechaPublicacion.format(formatter);
+
+        FechaHora.setText(fechaComoString);
         configurarProducto();
     }
+
+    public void likear(Producto producto) throws IOException {
+        if (esLike) {
+            usuarioV.quitarMeGusta(producto);
+            esLike = false;
+        } else {
+            usuarioV.darMeGusta(producto);
+            esLike = true;
+        }
+
+        likesLabel.setText("Likes: " + producto.getLikes());
+    }
+
 }

@@ -82,7 +82,11 @@ public class Vendedor extends Usuario implements Serializable{
     }
     public void darMeGusta(Producto producto) {
         producto.incrementarMeGusta();
-        logger.logInfo(this.getNombre() + " dio 'me gusta' al producto " + producto.getNombre());
+     //   logger.logInfo(this.getNombre() + " dio 'me gusta' al producto " + producto.getNombre());
+    }
+    public void quitarMeGusta(Producto producto) {
+        producto.decrementarMeGusta();
+       // logger.logInfo(this.getNombre() + " quitó el me gusta del producto " + producto.getNombre());
     }
 
     @Override
@@ -178,27 +182,8 @@ public void actualizarProducto(String codigo, String nombre, String imagen, Stri
     producto.setEstado(estado);
     logger.logInfo("Producto actualizado: " + producto.getNombre());
 }
-    public List<Comentario> obtenerComentarios(Producto producto, Vendedor solicitante) {
-        if (this.listaProductos.contains(producto) && esContacto(solicitante)) {
-            return producto.getComentarios();
-        } else {
-            return Collections.emptyList();
-        }
-    }
-    public void publicarComentario(Producto producto, Vendedor autor, String textoComentario) throws Exception {
-        // Verificar si el producto pertenece a este vendedor
-        if (this.listaProductos.contains(producto)) {
-            if (this.esContacto(autor)) {
-                Comentario comentario = new Comentario(textoComentario, autor);
-                producto.agregarComentario(comentario);
-                logger.logInfo("Comentario agregado por " + autor.getNombre() + " en el producto.");
-            } else {
-                throw new Exception("Solo los contactos pueden comentar en este producto.");
-            }
-        } else {
-            throw new Exception("Este producto no pertenece a este vendedor.");
-        }
-    }
+
+
 public boolean esContacto(Vendedor vendedor) {
         return listaContactos.contains(vendedor);
     }

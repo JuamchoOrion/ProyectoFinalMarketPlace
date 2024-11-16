@@ -35,6 +35,11 @@ public class Producto implements Serializable {
     public void incrementarMeGusta() {
         likes++;
     }
+    public void decrementarMeGusta() {
+        likes--;
+    }
+
+
     public void agregarComentario(Comentario comentario) {
         comentarios.add(comentario);
     }
