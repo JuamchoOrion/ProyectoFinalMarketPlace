@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import java.time.LocalDate;
+import java.util.List;
 public class Marketplace implements Serializable {
     private String nombre;
     private List<Producto> productos;
@@ -54,10 +55,8 @@ public class Marketplace implements Serializable {
     public List<Producto> topDiezProdLike() {
         List<Producto> productosOrdenados = new ArrayList<>(productos);
 
-        // Ordenar los productos por la cantidad de likes en orden descendente
         productosOrdenados.sort((p1, p2) -> Integer.compare(p2.getLikes(), p1.getLikes()));
 
-        // Obtener los diez productos con más likes (si hay menos de 10, se toma la cantidad disponible)
         return productosOrdenados.stream().limit(10).toList();
     }
     public List<Producto> topDiezProdLikeDeVendedor(Vendedor vendedor) {
@@ -188,5 +187,27 @@ public class Marketplace implements Serializable {
 
     public void setVendedorPorAgregar(Vendedor vendedorPorAgregar) {
         this.vendedorPorAgregar = vendedorPorAgregar;
+    }
+
+
+    public double obtenerTotalVentasMes(Vendedor vendedor) {
+        List<Producto> listaProductos = vendedor.getListaProductos();
+
+        LocalDate fechaActual = LocalDate.now();
+
+
+        return listaProductos.stream()
+                .filter(p -> p.getEstado().equals(Estado.VENDIDO))
+                .filter(p -> p.getFechaPublicacion().getMonth().equals(fechaActual.getMonth()))
+                .filter(p -> p.getFechaPublicacion().getYear() == fechaActual.getYear())
+                .mapToDouble(p -> {
+                    try {
+                        return Double.parseDouble(p.getPrecio());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Error al parsear el precio: " + p.getPrecio());
+                        return 0.0; // En caso de error, retorna 0
+                    }
+                })
+                .sum(); // Sumar los precios
     }
 }

@@ -1,5 +1,6 @@
 package com.example.proyectofinalmarketplace;
 
+import com.example.proyectofinalmarketplace.exceptions.ComentarioInvalidoException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -105,7 +106,11 @@ public class ProductoViewController {
                 handleComprarButtonAction();
         });
         agregarComentarioBtn.setOnAction(event -> {
-            handleAgregarComentarioButtonAction();
+            try {
+                handleAgregarComentarioButtonAction();
+            } catch (ComentarioInvalidoException e) {
+                throw new RuntimeException(e);
+            }
         });
         chat.setOnAction(event -> {
             try{
@@ -246,7 +251,7 @@ public class ProductoViewController {
 
     // Método que se ejecuta al hacer clic en el botón de agregar comentario
     @FXML
-    private void handleAgregarComentarioButtonAction() {
+    private void handleAgregarComentarioButtonAction() throws ComentarioInvalidoException {
         String comment = comentario.getText();
         producto.agregarComentario(new Comentario(comment, this.usuarioV));
         System.out.println(producto.getComentarios().toString());

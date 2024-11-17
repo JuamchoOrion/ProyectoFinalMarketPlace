@@ -61,8 +61,10 @@ public class ChatController {
         iniciarBtn.setOnAction(event -> {
             try {
                 iniciarMensajeria();
+            } catch (ConexionFallidaException e) {
+                e.printStackTrace();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         });
         cerrarButton.setOnAction(event -> {
