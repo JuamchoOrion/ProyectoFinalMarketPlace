@@ -1,5 +1,7 @@
 package com.example.proyectofinalmarketplace;
 
+import com.example.proyectofinalmarketplace.exceptions.ComentarioInvalidoException;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,8 +37,17 @@ public class Producto implements Serializable {
     public void incrementarMeGusta() {
         likes++;
     }
-    public void agregarComentario(Comentario comentario) {
-        comentarios.add(comentario);
+    public void decrementarMeGusta() {
+        likes--;
+    }
+
+
+    public void agregarComentario(Comentario comentario) throws ComentarioInvalidoException {
+
+        if(!comentario.getTexto().isEmpty()){
+            comentarios.add(comentario);
+        }
+        throw new ComentarioInvalidoException("El comentario no puede estar vacio");
     }
 
     public List<Comentario> getComentarios() {

@@ -18,9 +18,8 @@ public class CrearProductoController {
     private Button crear;
     @FXML
     private ComboBox selectCatego;
+
     @FXML
     public void initialize() {
-
-
     }
 }

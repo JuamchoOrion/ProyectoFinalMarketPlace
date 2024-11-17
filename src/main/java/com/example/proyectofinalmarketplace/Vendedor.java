@@ -58,7 +58,6 @@ public class Vendedor extends Usuario implements Serializable{
         this.descripcion = descripcion;
 
     }
-
     public String getCedula() {
         return cedula;
     }
@@ -82,7 +81,11 @@ public class Vendedor extends Usuario implements Serializable{
     }
     public void darMeGusta(Producto producto) {
         producto.incrementarMeGusta();
-        logger.logInfo(this.getNombre() + " dio 'me gusta' al producto " + producto.getNombre());
+     //   logger.logInfo(this.getNombre() + " dio 'me gusta' al producto " + producto.getNombre());
+    }
+    public void quitarMeGusta(Producto producto) {
+        producto.decrementarMeGusta();
+       // logger.logInfo(this.getNombre() + " quitó el me gusta del producto " + producto.getNombre());
     }
 
     @Override
@@ -113,7 +116,6 @@ public class Vendedor extends Usuario implements Serializable{
             listaContactos.add(vendedorOrigen);
             vendedorOrigen.listaContactos.add(this);
 
-            // Remover la solicitud de la lista de pendientes
             solicitudesPendientes.remove(vendedorOrigen);
 
             logger.logInfo("Solicitud aceptada. Contactos agregados mutuamente entre: " + vendedorOrigen.getNombre() + " y " + this.getNombre());
@@ -127,7 +129,7 @@ public class Vendedor extends Usuario implements Serializable{
             logger.logInfo("Solicitud rechazada de: " + vendedorOrigen.getNombre());
         }
     }
-    //crea un producto
+
     public void agregarProducto(Marketplace marketplace,Producto producto) throws ProductoInvalidoException, ProductoYaExisteException {
         if (producto == null || producto.getCodigo() == null || producto.getCodigo().isEmpty()) {
             logger.logSevere("Intento de agregar un producto inválido.");
@@ -154,7 +156,7 @@ public class Vendedor extends Usuario implements Serializable{
             logger.logWarning("Intento de eliminar un producto que no existe: " + producto.getCodigo());
         }
     }
-    //metodo para encontar un producto segun su codigo
+
     public Producto encontrarProductoPorCodigo(String codigo) throws ProductoNoEncontradoException {
         for (Producto producto : listaProductos) {
             if (producto.getCodigo().equals(codigo)) {
@@ -166,7 +168,6 @@ public class Vendedor extends Usuario implements Serializable{
         throw new ProductoNoEncontradoException("No se encontró el producto con el código: " + codigo);
     }
 
-// metodo para actualizar atributos del producto segun id
 public void actualizarProducto(String codigo, String nombre, String imagen, String precio,
                                 Categoria categoria,  Estado estado)
         throws ProductoNoEncontradoException {
@@ -178,35 +179,11 @@ public void actualizarProducto(String codigo, String nombre, String imagen, Stri
     producto.setEstado(estado);
     logger.logInfo("Producto actualizado: " + producto.getNombre());
 }
-    public List<Comentario> obtenerComentarios(Producto producto, Vendedor solicitante) {
-        if (this.listaProductos.contains(producto) && esContacto(solicitante)) {
-            return producto.getComentarios();
-        } else {
-            return Collections.emptyList();
-        }
-    }
-    public void publicarComentario(Producto producto, Vendedor autor, String textoComentario) throws Exception {
-        // Verificar si el producto pertenece a este vendedor
-        if (this.listaProductos.contains(producto)) {
-            if (this.esContacto(autor)) {
-                Comentario comentario = new Comentario(textoComentario, autor);
-                producto.agregarComentario(comentario);
-                logger.logInfo("Comentario agregado por " + autor.getNombre() + " en el producto.");
-            } else {
-                throw new Exception("Solo los contactos pueden comentar en este producto.");
-            }
-        } else {
-            throw new Exception("Este producto no pertenece a este vendedor.");
-        }
-    }
 public boolean esContacto(Vendedor vendedor) {
         return listaContactos.contains(vendedor);
     }
-
     @Override
     public String toString() {
         return nombre;
     }
-
-
 }

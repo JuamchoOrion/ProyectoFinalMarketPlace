@@ -1,5 +1,7 @@
 package com.example.proyectofinalmarketplace;
 
+import com.example.proyectofinalmarketplace.Sockets.ChatClient;
+import com.example.proyectofinalmarketplace.exceptions.ConexionFallidaException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -43,12 +45,12 @@ public class ChatController {
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario usuarioActual = marketplace.getUsuarioActual();
     private Vendedor vendedorActual = (Vendedor) usuarioActual;
+    private ChatClient chatClient;
     Utilities logger = Utilities.getInstance();
-
     @FXML
     public void initialize() {
-    List<Vendedor> contactos = vendedorActual.getListaContactos();
-    comboContactos.getItems().addAll(contactos);
+        List<Vendedor> contactos = vendedorActual.getListaContactos();
+        comboContactos.getItems().addAll(contactos);
         perfil.setOnAction(event -> {
             try {
                 navegarPerfil();
@@ -56,11 +58,13 @@ public class ChatController {
                 throw new RuntimeException(e);
             }
         });
-        chatButton.setOnAction(event -> {
+        iniciarBtn.setOnAction(event -> {
             try {
-                navegarChat();
+                iniciarMensajeria();
+            } catch (ConexionFallidaException e) {
+                e.printStackTrace();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         });
         cerrarButton.setOnAction(event -> {
@@ -80,19 +84,13 @@ public class ChatController {
         });
     }
 
-    // Método para manejar el clic en el botón "Iniciar Chat"
-    @FXML
-    private void iniciarChat() {
 
-    }
-
-    // Método para manejar el clic en el botón "Chats Existentes"
     @FXML
     private void mostrarChatsExistentes() {
 
     }
 
-    // Método para manejar el clic en el botón "Chat" de navegación
+
     @FXML
     private void navegarChat() throws IOException {
         FXMLLoader loader;
@@ -104,7 +102,7 @@ public class ChatController {
         stage.show();
     }
 
-    // Método para manejar el clic en el botón "Perfil" de navegación
+
     @FXML
     private void navegarPerfil() throws IOException {
         FXMLLoader loader;
@@ -116,7 +114,7 @@ public class ChatController {
         stage.show();
     }
 
-    // Método para manejar el clic en el botón "Buscar"
+
     @FXML
     private void buscar() throws IOException {
         String cedula = inputCedula.getText();
@@ -134,7 +132,23 @@ public class ChatController {
         stage.show();
     }
 
-    // Método para manejar el clic en el botón "Cerrar sesión"
+    private void iniciarChat() {
+        Usuario seleccionado = comboContactos.getValue();
+        if (seleccionado == null) {
+            System.out.println("Selecciona un usuario para iniciar el chat.");
+            return;
+        }
+
+        String serverIP = "192.168.198.172"; // IP del servidor
+        int serverPort = 12345; // Puerto del servidor
+
+        chatClient = new ChatClient(serverIP, serverPort);
+        new Thread(() -> chatClient.start()).start();
+
+        System.out.println("Chat iniciado con: " + seleccionado.getNombre());
+    }
+
+
     @FXML
     private void cerrarSesion() throws IOException {
         FXMLLoader loader;
@@ -144,5 +158,17 @@ public class ChatController {
         Stage stage = (Stage) cerrarButton.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+    private void iniciarMensajeria() throws ConexionFallidaException, IOException {
+            if(!comboContactos.getValue().equals(null)){
+                FXMLLoader loader;
+                Scene scene;
+                loader = new FXMLLoader(getClass().getResource("Mensajeria.fxml"));
+                scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+                Stage stage = (Stage) cerrarButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            }
+            throw new ConexionFallidaException("El usuario seleccionado no puede ser nulo");
     }
 }
