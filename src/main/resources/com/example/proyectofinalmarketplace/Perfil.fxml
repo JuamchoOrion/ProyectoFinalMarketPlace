@@ -5,8 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
@@ -49,23 +49,11 @@
         <!-- HBox para mostrar los productos en fila -->
         <HBox layoutX="230.0" layoutY="100.0" spacing="20">
             <!-- Producto 1 -->
-            <VBox alignment="CENTER">
-                <ImageView fx:id="imageProduct1" fitHeight="100.0" fitWidth="100.0" />
-                <Label fx:id="nameProduct1" text="Producto 1" textFill="WHITE" />
-                <Label fx:id="priceProduct1" text="Precio: €XX" textFill="WHITE" />
-            </VBox>
+            <VBox alignment="CENTER" />
             <!-- Producto 2 -->
-            <VBox alignment="CENTER">
-                <ImageView fx:id="imageProduct2" fitHeight="100.0" fitWidth="100.0" />
-                <Label fx:id="nameProduct2" text="Producto 2" textFill="WHITE" />
-                <Label fx:id="priceProduct2" text="Precio: €XX" textFill="WHITE" />
-            </VBox>
+            <VBox alignment="CENTER" />
             <!-- Producto 3 -->
-            <VBox alignment="CENTER">
-                <ImageView fx:id="imageProduct3" fitHeight="100.0" fitWidth="100.0" />
-                <Label fx:id="nameProduct3" text="Producto 3" textFill="WHITE" />
-                <Label fx:id="priceProduct3" text="Precio: €XX" textFill="WHITE" />
-            </VBox>
+            <VBox alignment="CENTER" />
         </HBox>
 
         <!-- Caja de comentarios en la parte inferior -->
@@ -76,5 +64,10 @@
                 </VBox>
             </content>
         </ScrollPane>
+      <ScrollPane fx:id="scrollPane" layoutX="230.0" layoutY="108.0" prefHeight="127.0" prefWidth="357.0" styleClass="scroll-container" stylesheets="@Style.css">
+         <content>
+            <GridPane fx:id="productGrid" alignment="CENTER" hgap="10" vgap="10" />
+         </content>
+      </ScrollPane>
     </children>
 </AnchorPane>
