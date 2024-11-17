@@ -1,5 +1,6 @@
 package com.example.proyectofinalmarketplace;
 
+import com.example.proyectofinalmarketplace.exceptions.PrecioInvalidoException;
 import com.example.proyectofinalmarketplace.exceptions.ProductoInvalidoException;
 import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class AgregarProductoController {
     private Vendedor usuario = (Vendedor) marketplace.getUsuarioActual();
     Utilities logger = Utilities.getInstance();
 
-    // Método para inicializar el controlador
+
     @FXML
     public void initialize() {
         List<Categoria> categorias = marketplace.getCategorias();
@@ -64,20 +65,30 @@ public class AgregarProductoController {
 
     // Acción del botón Añadir Producto
     @FXML
-    private void aniadirProducto() throws ProductoYaExisteException, ProductoInvalidoException, IOException {
+    private void aniadirProducto() throws ProductoYaExisteException, ProductoInvalidoException, PrecioInvalidoException, IOException {
+
         String nombreProducto = nombreField.getText();
         String codigoProducto = codigoField.getText();
         String urlImagen = urlField.getText();
         Categoria categoriaSeleccionada = categoriaComboBox.getValue();
         String precio = precioField.getText();
-
-        // Crear y agregar el producto
+        double precioDouble;
+        try{
+            precioDouble =Double.parseDouble(precio);
+            if(precioDouble <= 0){
+                throw new PrecioInvalidoException("El precio debe ser mayor a 0.");
+            }
+        }catch(NumberFormatException e){
+            throw new PrecioInvalidoException("El precio ingresado no es valido");
+        }
+        for (Producto p : marketplace.getProductos()) {
+            if (p.getCodigo().equals(codigoProducto)) {
+                throw new ProductoYaExisteException("Ya existe un producto con el mismo código.");
+            }
+        }
         Producto producto = new Producto(nombreProducto, codigoProducto, urlImagen, precio, LocalDateTime.now(), categoriaSeleccionada, 0, Estado.PUBLICADO);
         usuario.agregarProducto(marketplace, producto);
-
-        // Confirmación de la acción (puedes agregar un mensaje en la interfaz si lo deseas)
         System.out.println("Producto agregado: " + producto);
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Perfil.fxml"));
         Scene scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
         Stage stage = (Stage) volverBtn.getScene().getWindow();

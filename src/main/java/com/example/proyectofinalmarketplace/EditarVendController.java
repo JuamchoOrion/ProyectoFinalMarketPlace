@@ -65,7 +65,6 @@ public class EditarVendController {
         String cedula = inputNewCedula.getText().trim();
         Vendedor vendedorAEditar = comboBoxVendedor.getSelectionModel().getSelectedItem();
 
-        // Verificar que no estén vacíos
         if (nombre.isEmpty() || contrasenia.isEmpty() || direccion.isEmpty() || descripcion.isEmpty() || cedula.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Campos Vacíos", "Por favor, complete todos los campos.");
             logger.logInfo("Intento de editar el vendedor con campos vacíos.");

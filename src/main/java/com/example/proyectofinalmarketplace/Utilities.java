@@ -23,9 +23,6 @@ public class Utilities  { ;
     private static final String direccionRespaldo = "C:\\td\\persistencia\\respaldo\\";
 
 
-
-
-    // Método para obtener la única instancia de la clase (patrón Singleton)
     public static Utilities getInstance() {
         if (instanciaUnica == null) {
             synchronized (Utilities.class) {
@@ -37,7 +34,7 @@ public class Utilities  { ;
         return instanciaUnica;
     }
 
-    // Logger que manejará los mensajes de log
+
     private static final Logger logger = Logger.getLogger(Utilities.class.getName());
 
     // Métodos para escribir en el log con diferentes niveles de severidad
@@ -85,7 +82,7 @@ public class Utilities  { ;
         }
     }
 
-    // Método para escribir una lista en un archivo de texto
+
     public void escribirListaEnArchivo(String nombreArchivo, List<?> lista) throws IOException {
         verificarOCrearDirectorio();  // Asegura que el directorio exista
 
@@ -95,8 +92,8 @@ public class Utilities  { ;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
             // Itera sobre los elementos de la lista y los escribe en el archivo
             for (Object elemento : lista) {
-                writer.write(elemento.toString());  // Escribe cada elemento en el archivo
-                writer.newLine();  // Añade una nueva línea después de cada elemento
+                writer.write(elemento.toString());
+                writer.newLine();
             }
 
             // Realiza un último flush para asegurarse de que todo se escribe en disco
@@ -114,33 +111,25 @@ public class Utilities  { ;
     // Método para serializar un objeto a un archivo
     public boolean serializarObjeto(String direccionArchivo, Serializable objeto) {
         boolean sw = false;
-
-        // Intenta serializar el objeto y guardarlo en el archivo especificado
         try (FileOutputStream fos = new FileOutputStream(direccionArchivo);
              ObjectOutputStream salida = new ObjectOutputStream(fos)) {
-
-            salida.writeObject(objeto);  // Escribe el objeto serializado en el archivo
+            salida.writeObject(objeto);
             sw = true;
             logInfo("Objeto serializado con éxito: " + direccionArchivo);
         } catch (Exception e) {
             logSevere("Error al serializar objeto: " + e.getMessage());
         }
-        return sw;  // Devuelve true si la serialización fue exitosa
+        return sw;
     }
 
-    // Método genérico para deserializar una lista de objetos desde un archivo
+
     public <T> List<T> deserializarLista(String rutaArchivo) throws IOException, ClassNotFoundException {
         List<T> lista = null;
-
-        // Deserializa el archivo y lo castea a una lista de T (tipo genérico)
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo))) {
-            lista = (List<T>) ois.readObject();  // Deserializa el objeto y lo convierte a lista
+            lista = (List<T>) ois.readObject();
         }
-
-        return lista;  // Retorna la lista deserializada
+        return lista;
     }
-
-    // Método para serializar un objeto a XML usando XMLEncoder
     public boolean serializarObjetoXML(String direccionArchivo, Serializable objeto) {
         boolean sw = false;
         try (FileOutputStream fos = new FileOutputStream(direccionArchivo);
@@ -153,8 +142,6 @@ public class Utilities  { ;
         }
         return sw;
     }
-
-    // Método genérico para deserializar cualquier lista desde XML usando XMLDecoder
     public <T> List<T> deserializarListaXML(String rutaArchivo) throws IOException {
         List<T> lista;
         try (FileInputStream fis = new FileInputStream(rutaArchivo);
@@ -167,25 +154,20 @@ public class Utilities  { ;
         }
         return lista;
     }
-
-    // Método genérico para serializar cualquier lista a un archivo XML
     public <T extends Serializable> void generarArchivoXML(List<T> lista, String nombreArchivo) throws IOException {
         if (lista != null) {
-            // Serializar en la primera dirección
+
             boolean result1 = serializarObjetoXML(DIRECTORIO_BASE + nombreArchivo, (Serializable) lista);
 
-            // Obtener la fecha actual y formatearla
+
             LocalDateTime fechaActual = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
             String fechaFormateada = fechaActual.format(formatter);
 
-            // Generar el nombre de archivo de respaldo con la fecha
             String nombreArchivoRespaldo = nombreArchivo.replace(".xml", "") + "_" + fechaFormateada + ".xml";
 
-            // Serializar en la segunda dirección de respaldo
             boolean result2 = serializarObjetoXML(direccionRespaldo + nombreArchivoRespaldo, (Serializable) lista);
 
-            // Verificar resultados de ambas serializaciones
             if (!result1 || !result2) {
                 throw new IOException("Error al serializar la lista a XML en una o ambas ubicaciones");
             }
@@ -206,12 +188,11 @@ public class Utilities  { ;
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaCompleta))) {
             for (T objeto : lista) {
-                // Usa reflection para obtener y escribir los atributos de cada objeto
                 StringBuilder linea = new StringBuilder();
                 Field[] fields = objeto.getClass().getDeclaredFields();
                 for (Field field : fields) {
-                    field.setAccessible(true); // Permite acceder a atributos privados
-                    Object valor = field.get(objeto); // Obtiene el valor del atributo
+                    field.setAccessible(true);
+                    Object valor = field.get(objeto);
                     linea.append(field.getName()).append(": ").append(valor).append(" | ");
                 }
                 writer.write(linea.toString());
@@ -228,18 +209,13 @@ public class Utilities  { ;
 
     public <T extends Serializable> void generarArchivoDat(List<?> list, String  nombreArchivo) throws IOException {
         if (list != null) {
-            // Serializa en la ruta original
             boolean result = serializarObjeto(DIRECTORIO_BASE + nombreArchivo, (Serializable) list);
             if (!result) {
                 throw new IOException("Error al serializar en la ruta principal");
             }
-
-            // Genera el nombre de archivo de respaldo una sola vez por ejecución
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
             String fechaActual = LocalDateTime.now().format(formatter);
             String nombreArchivoRespaldo = nombreArchivo.replace(".dat", "_" + fechaActual + ".dat");
-
-            // Serializa en la ruta de respaldo
             boolean resultRespaldo = serializarObjeto(direccionRespaldo + nombreArchivoRespaldo, (Serializable) list);
             if (!resultRespaldo) {
                 throw new IOException("Error al serializar en la ruta de respaldo");
@@ -248,5 +224,4 @@ public class Utilities  { ;
             throw new IllegalArgumentException("La lista no puede ser nula");
         }
     }
-    //asi con todos...
 }

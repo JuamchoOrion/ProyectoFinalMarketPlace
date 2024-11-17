@@ -24,8 +24,8 @@ public class Admin extends Usuario implements Serializable {
 
     // Método especial para la deserialización
     private void readObject(ObjectInputStream ois) throws Exception {
-        ois.defaultReadObject(); // Llamamos primero a la deserialización predeterminada
-        logger = Utilities.getInstance(); // Reinicializamos el logger después de la deserialización
+        ois.defaultReadObject();
+        logger = Utilities.getInstance();
     }
 
     public void addVendedor(Marketplace marketplace, Vendedor vendedor) throws UsuarioYaExisteException {

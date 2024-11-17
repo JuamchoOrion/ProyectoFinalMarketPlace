@@ -58,7 +58,6 @@ public class Vendedor extends Usuario implements Serializable{
         this.descripcion = descripcion;
 
     }
-
     public String getCedula() {
         return cedula;
     }
@@ -117,7 +116,6 @@ public class Vendedor extends Usuario implements Serializable{
             listaContactos.add(vendedorOrigen);
             vendedorOrigen.listaContactos.add(this);
 
-            // Remover la solicitud de la lista de pendientes
             solicitudesPendientes.remove(vendedorOrigen);
 
             logger.logInfo("Solicitud aceptada. Contactos agregados mutuamente entre: " + vendedorOrigen.getNombre() + " y " + this.getNombre());
@@ -131,7 +129,7 @@ public class Vendedor extends Usuario implements Serializable{
             logger.logInfo("Solicitud rechazada de: " + vendedorOrigen.getNombre());
         }
     }
-    //crea un producto
+
     public void agregarProducto(Marketplace marketplace,Producto producto) throws ProductoInvalidoException, ProductoYaExisteException {
         if (producto == null || producto.getCodigo() == null || producto.getCodigo().isEmpty()) {
             logger.logSevere("Intento de agregar un producto inválido.");
@@ -158,7 +156,7 @@ public class Vendedor extends Usuario implements Serializable{
             logger.logWarning("Intento de eliminar un producto que no existe: " + producto.getCodigo());
         }
     }
-    //metodo para encontar un producto segun su codigo
+
     public Producto encontrarProductoPorCodigo(String codigo) throws ProductoNoEncontradoException {
         for (Producto producto : listaProductos) {
             if (producto.getCodigo().equals(codigo)) {
@@ -170,7 +168,6 @@ public class Vendedor extends Usuario implements Serializable{
         throw new ProductoNoEncontradoException("No se encontró el producto con el código: " + codigo);
     }
 
-// metodo para actualizar atributos del producto segun id
 public void actualizarProducto(String codigo, String nombre, String imagen, String precio,
                                 Categoria categoria,  Estado estado)
         throws ProductoNoEncontradoException {
@@ -182,16 +179,11 @@ public void actualizarProducto(String codigo, String nombre, String imagen, Stri
     producto.setEstado(estado);
     logger.logInfo("Producto actualizado: " + producto.getNombre());
 }
-
-
 public boolean esContacto(Vendedor vendedor) {
         return listaContactos.contains(vendedor);
     }
-
     @Override
     public String toString() {
         return nombre;
     }
-
-
 }

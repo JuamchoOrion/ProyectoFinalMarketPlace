@@ -36,14 +36,12 @@ public class HelloApplication extends Application {
         HiloDeserializacion<Categoria> hiloCategorias = new HiloDeserializacion<>("C:\\td\\persistencia\\categorias.dat");
         HiloDeserializacion<Usuario> hiloUsuarios = new HiloDeserializacion<>("C:\\td\\persistencia\\usuarios.dat");
 
-        // Iniciar hilos
         hiloAdmins.start();
         hiloVendedores.start();
         hiloProductos.start();
         hiloCategorias.start();
         hiloUsuarios.start();
 
-        // Esperar a que los hilos terminen
         try {
             hiloAdmins.join();
             hiloVendedores.join();
@@ -54,26 +52,21 @@ public class HelloApplication extends Application {
             e.printStackTrace();
         }
 
-        // Obtener las listas deserializadas o listas vacías en caso de error
         List<Admin> administradores = hiloAdmins.getListaDeserializada() != null ? hiloAdmins.getListaDeserializada() : new ArrayList<>();
         List<Vendedor> vendedores = hiloVendedores.getListaDeserializada() != null ? hiloVendedores.getListaDeserializada() : new ArrayList<>();
         List<Producto> productos = hiloProductos.getListaDeserializada() != null ? hiloProductos.getListaDeserializada() : new ArrayList<>();
         List<Categoria> categorias = hiloCategorias.getListaDeserializada() != null ? hiloCategorias.getListaDeserializada() : new ArrayList<>();
         List<Usuario> usuarios = hiloUsuarios.getListaDeserializada() != null ? hiloUsuarios.getListaDeserializada() : new ArrayList<>();
 
-        // Configurar el marketplace con datos deserializados
         marketplace = new Marketplace("JavaDictos");
         marketplace.setAdministradores(administradores);
         marketplace.setVendedores(vendedores);
         marketplace.setProductos(productos);
         marketplace.setCategorias(categorias);
         marketplace.setUsuarios(usuarios);
-
-        // Crear y añadir un vendedor con productos adicionales, independientemente de la deserialización
         Vendedor vendedorExtra = DatosIniciales.crearVendedorConProductos(marketplace);
         marketplace.getVendedores().add(vendedorExtra);
-        marketplace.getUsuarios().add(vendedorExtra); // Añadir también a la lista de usuarios
-         // Añadir los productos del vendedor
+        marketplace.getUsuarios().add(vendedorExtra);
 
         MarketplaceManager.setMarketplaceInstance(marketplace);
 
@@ -83,7 +76,6 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
 
-        // Evento para manejar el cierre de la aplicación
         stage.setOnCloseRequest(event -> {
             try {
                 serializarDatos(marketplace);
@@ -105,7 +97,7 @@ public class HelloApplication extends Application {
 
         utilities.generarArchivoXML(marketplace.getListaVendedores(), "vendedores.xml");
 
-        // Guardar en archivos TXT
+
         try {
             utilities.guardarListaTXT(marketplace.getAdministradores(), "administradores.txt");
             utilities.guardarListaTXT(marketplace.getVendedores(), "vendedores.txt");
@@ -114,15 +106,11 @@ public class HelloApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // Iniciar hilos de serialización
         hiloSerializacionAdmin.start();
         hiloSerializacionVendedor.start();
         productoHiloSerializacion.start();
         categoriaHiloSerializacion.start();
         usuarioHiloSerializacion.start();
-
-        // Esperar a que los hilos terminen
         try {
             hiloSerializacionAdmin.join();
             hiloSerializacionVendedor.join();

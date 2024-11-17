@@ -33,7 +33,7 @@ public class Marketplace implements Serializable {
 
 
 
-    public Usuario autenticacionUsuario(String nombre, String contrasenia) throws UsuarioNoExisteException {
+    public Usuario autenticacionUsuario(String nombre, String contrasenia) throws UsuarioNoExisteException  {
         for (Admin admin : administradores) {
             if (admin.getNombre().equals(nombre) && admin.getContrasenia().equals(contrasenia)) {
                 setUsuarioActual(admin);
@@ -60,7 +60,14 @@ public class Marketplace implements Serializable {
         // Obtener los diez productos con más likes (si hay menos de 10, se toma la cantidad disponible)
         return productosOrdenados.stream().limit(10).toList();
     }
-    // Método que retorna una lista con el nombre del vendedor y la cantidad de productos publicados
+    public List<Producto> topDiezProdLikeDeVendedor(Vendedor vendedor) {
+        List<Producto> productosOrdenados = vendedor.getListaProductos();
+
+        productosOrdenados.sort((p1, p2) -> Integer.compare(p2.getLikes(), p1.getLikes()));
+
+        return productosOrdenados.stream().limit(10).toList();
+    }
+
     public List<String> productosPorVendedor() {
         List<String> productosPorVendedor = new ArrayList<>();
 

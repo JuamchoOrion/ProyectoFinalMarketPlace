@@ -1,6 +1,7 @@
 package com.example.proyectofinalmarketplace;
 
 import com.example.proyectofinalmarketplace.Sockets.ChatClient;
+import com.example.proyectofinalmarketplace.exceptions.ConexionFallidaException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -81,15 +82,13 @@ public class ChatController {
         });
     }
 
-    // Método para manejar el clic en el botón "Iniciar Chat"
 
-    // Método para manejar el clic en el botón "Chats Existentes"
     @FXML
     private void mostrarChatsExistentes() {
 
     }
 
-    // Método para manejar el clic en el botón "Chat" de navegación
+
     @FXML
     private void navegarChat() throws IOException {
         FXMLLoader loader;
@@ -101,7 +100,7 @@ public class ChatController {
         stage.show();
     }
 
-    // Método para manejar el clic en el botón "Perfil" de navegación
+
     @FXML
     private void navegarPerfil() throws IOException {
         FXMLLoader loader;
@@ -113,7 +112,7 @@ public class ChatController {
         stage.show();
     }
 
-    // Método para manejar el clic en el botón "Buscar"
+
     @FXML
     private void buscar() throws IOException {
         String cedula = inputCedula.getText();
@@ -147,7 +146,7 @@ public class ChatController {
         System.out.println("Chat iniciado con: " + seleccionado.getNombre());
     }
 
-    // Método para manejar el clic en el botón "Cerrar sesión"
+
     @FXML
     private void cerrarSesion() throws IOException {
         FXMLLoader loader;
@@ -158,13 +157,16 @@ public class ChatController {
         stage.setScene(scene);
         stage.show();
     }
-    private void iniciarMensajeria() throws IOException {
-        FXMLLoader loader;
-        Scene scene;
-        loader = new FXMLLoader(getClass().getResource("Mensajeria.fxml"));
-        scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
-        Stage stage = (Stage) cerrarButton.getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+    private void iniciarMensajeria() throws ConexionFallidaException, IOException {
+            if(!comboContactos.getValue().equals(null)){
+                FXMLLoader loader;
+                Scene scene;
+                loader = new FXMLLoader(getClass().getResource("Mensajeria.fxml"));
+                scene = new Scene(loader.load(), HelloApplication.getWidth(), HelloApplication.getHeight());
+                Stage stage = (Stage) cerrarButton.getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            }
+            throw new ConexionFallidaException("El usuario seleccionado no puede ser nulo");
     }
 }
