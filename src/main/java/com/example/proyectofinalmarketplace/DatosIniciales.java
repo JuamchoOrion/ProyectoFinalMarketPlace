@@ -28,14 +28,18 @@ public class DatosIniciales {
         Categoria categoriaLibros = new Categoria("Libros", "Libros para lectura");
 
         // Crear productos y asociarlos al vendedor
-        Producto pelotaRoja = new Producto("Pelota Roja", "001", "/imagenes/img.png", "15.00", LocalDateTime.now(), categoriaPelotas, 5, Estado.PUBLICADO);
-        Producto pelotaAzul = new Producto("Pelota Azul", "002", "/imagenes/img.png", "12.00",LocalDateTime.now(), categoriaPelotas, 3, Estado.PUBLICADO);
-        Producto libroJava = new Producto("Aprende Java", "003", "/imagenes/img.png", "45.00", LocalDateTime.now(), categoriaLibros, 10, Estado.PUBLICADO);
-
+        Producto pelotaRoja = new Producto("Pelota Roja", "001", "/imagenes/img.png", "15.00", LocalDateTime.now(), categoriaPelotas, 1, Estado.PUBLICADO);
+        Producto pelotaAzul = new Producto("Pelota Azul", "002", "/imagenes/img.png", "12.00",LocalDateTime.now(), categoriaPelotas, 2, Estado.PUBLICADO);
+        Producto libroJava = new Producto("computadora", "003", "imagenes/Computadora.jpg", "1000.00", LocalDateTime.now(), categoriaLibros, 5, Estado.PUBLICADO);
+        Producto celular = new Producto("celular", "003", "imagenes/Celular.jpg", "500.00", LocalDateTime.now(), categoriaLibros, 10, Estado.PUBLICADO);
+        Producto ventilador = new Producto("ventilador", "003", "imagenes/ventilador.jpg", "50.00", LocalDateTime.now(), categoriaLibros, 0, Estado.PUBLICADO);
+        Producto televisor = new Producto("televisor", "003", "imagenes/televisor.jpg", "102.00", LocalDateTime.now(), categoriaLibros, 4, Estado.PUBLICADO);
+        Producto bafle = new Producto("bafle", "003", "imagenes/bafle.png", "80.00", LocalDateTime.now(), categoriaLibros, 0, Estado.PUBLICADO);
         // Añadir los productos al vendedor
         vendedor.agregarProducto(marketplace, pelotaRoja);
         vendedor.agregarProducto(marketplace, pelotaAzul);
         vendedor.agregarProducto(marketplace, libroJava);
+
 
         return vendedor;
     }
@@ -80,7 +84,7 @@ public class DatosIniciales {
         // Productos existentes
         Producto p1 = new Producto("Pelota Roja", "123", "/imagenes/img.png", "12", LocalDateTime.now(), c1, 2, Estado.PUBLICADO);
         Producto p2 = new Producto("Pelota Verde", "432", "/imagenes/img.png", "18", LocalDateTime.now(), c1, 4, Estado.PUBLICADO);
-        Producto p3 = new Producto("Maleta", "456", "/imagenes/logo.png", "10", LocalDateTime.now(), c2, 8, Estado.PUBLICADO);
+        Producto p3 = new Producto("Maleta", "456", "imagenes/maleta.jpg", "10", LocalDateTime.now(), c2, 8, Estado.PUBLICADO);
         Producto p4 = new Producto("Libro", "098", "/imagenes/logo.png", "82", LocalDateTime.now(), c3, 2, Estado.PUBLICADO);
         productos.add(p1);
         productos.add(p2);
