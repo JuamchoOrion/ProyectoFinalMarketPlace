@@ -102,38 +102,50 @@ public class Marketplace implements Serializable {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public List<Producto> getListaProductos() {
         return productos;
     }
+
     public void setUsuarios(List<Usuario> usuarios) {this.usuarios = usuarios;
     }
+
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
+
     public List<Vendedor> getListaVendedores() {
         return vendedores;
     }
+
     public List<Categoria> getListaCategorias() {
         return categorias;
     }
+
     public void setVendedores(List<Vendedor> vendedores) {
         this.vendedores = vendedores;
     }
+
     public void setCategorias(List<Categoria> categorias) {
         this.categorias = categorias;
     }
+
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
     }
+
     public List<Admin> getListaAdministradores() {
         return administradores;
     }
+
     public void setAdministradores(List<Admin> administradores) {
         this.administradores= administradores;
     }
+
     public void aniadirVendedor(Vendedor vendedor) throws UsuarioYaExisteException {
         // Verifica que no exista un vendedor con la misma contraseña
         for (Vendedor v : vendedores) {

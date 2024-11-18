@@ -1,6 +1,5 @@
 package com.example.proyectofinalmarketplace;
 
-import com.example.proyectofinalmarketplace.exceptions.UsuarioYaExisteException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
