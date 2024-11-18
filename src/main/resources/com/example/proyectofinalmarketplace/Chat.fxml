@@ -12,8 +12,7 @@
          <children>
             <Label layoutX="23.0" layoutY="37.0" styleClass="label-style" stylesheets="@Style.css" text="Selecciona el contacto:" />
             <ComboBox fx:id="comboContactos" layoutX="23.0" layoutY="64.0" prefWidth="150.0" />
-            <Button fx:id="iniciarBtn" layoutX="33.0" layoutY="117.0" mnemonicParsing="false" text="Inciar Chat" />
-            <Button fx:id="chatsBtn" layoutX="147.0" layoutY="118.0" mnemonicParsing="false" text="Chats Existentes" />
+            <Button fx:id="iniciarBtn" layoutX="101.0" layoutY="120.0" mnemonicParsing="false" text="Inciar Chat" />
          </children>
       </AnchorPane>
       <Label layoutX="166.0" layoutY="102.0" styleClass="titulo" stylesheets="@Style.css" text="INICIAR O BUSCAR CHAT" />

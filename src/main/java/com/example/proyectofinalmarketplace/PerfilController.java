@@ -4,6 +4,7 @@ import com.example.proyectofinalmarketplace.exceptions.ProductoInvalidoException
 import com.example.proyectofinalmarketplace.exceptions.ProductoYaExisteException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -12,24 +13,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class PerfilController {
 
-    @FXML
-    private ImageView imageProduct1, imageProduct2, imageProduct3;
-
-    @FXML
-    private Label nameProduct1, nameProduct2, nameProduct3;
-
-    @FXML
-    private Label priceProduct1, priceProduct2, priceProduct3;
 
     @FXML
     private ComboBox<Vendedor> comboSolicitudes;
@@ -61,6 +57,11 @@ public class PerfilController {
     @FXML
     private Button buscarVendedor;
 
+    @FXML
+    private GridPane productGrid;
+
+
+
     private Marketplace marketplace = MarketplaceManager.getMarketplaceInstance();
     private Usuario usuario = marketplace.getUsuarioActual();
     Vendedor vendedor = (Vendedor) usuario;
@@ -70,7 +71,6 @@ public class PerfilController {
     public void initialize() {
         nombreUsuario.setText("ID: " + vendedor.getCedula() + ", Nombre: " + vendedor.getNombre()); // Configura el nombre de usuario
         logger.logInfo("Perfil cargado para el vendedor: " + vendedor.getNombre());
-        cargarProductos();
         mostrarTopProductos();
         cargarComentarios();
         homeButton.setOnAction(event -> {
@@ -123,7 +123,32 @@ public class PerfilController {
                 throw new RuntimeException(e);
             }
         });
+        List<Producto> productos = new ArrayList<>();
+
+// Agregar productos del vendedor actual
+        for (Producto producto : vendedor.getListaProductos()) {
+            productos.add(producto);
+            logger.logInfo("Producto " + producto.getNombre() + " del vendedor " + vendedor.getNombre() + " añadido a la lista.");
+        }
+
+
+// Ordenar la lista de productos desde el más nuevo al más viejo
+        productos.sort(Comparator.comparing(Producto::getFechaPublicacion).reversed());
+
+        int column = 0;
+        int row = 0;
+        for (Producto producto : productos) {
+            VBox productBox = crearVistaProducto(producto);
+            productGrid.add(productBox, column++, row);
+
+            if (column == 2) {  // Muestra 3 productos por fila
+                column = 0;
+                row++;
+
+        }
+        }
     }
+
     private void aceptar() throws IOException {
         Vendedor vendedorAAceptar = comboSolicitudes.getValue();
         vendedor.aceptarSolicitud(vendedorAAceptar);
@@ -159,6 +184,71 @@ public class PerfilController {
         stage.setScene(scene);
         stage.show();
     }
+    private VBox crearVistaProducto(Producto producto) {
+        VBox productBox = new VBox();
+        productBox.setSpacing(10);
+        productBox.getStyleClass().add("container");
+
+        // Imagen del producto
+        ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream(producto.getImagen())));
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(150);
+
+        // Nombre del producto
+        Label nombreLabel = new Label(producto.getNombre());
+        nombreLabel.getStyleClass().add("titulo");
+
+        // Precio del producto
+        Label precioLabel = new Label("€" + producto.getPrecio());
+        precioLabel.getStyleClass().add("label-style");
+
+        // Recuento de likes
+        Label likesLabel = new Label("Likes: " + producto.getLikes());
+        likesLabel.getStyleClass().add("label-style");
+
+        // Agregar elementos a la caja del producto
+        productBox.getChildren().addAll(imageView, nombreLabel, precioLabel, likesLabel);
+
+        // Cambiar color al pasar el mouse
+        productBox.setOnMouseEntered(event -> {
+            productBox.setStyle("-fx-background-color: #5d1569;");
+        });
+        productBox.setOnMouseExited(event -> {
+            productBox.setStyle("");
+        });
+
+        productBox.setOnMouseClicked(event -> {
+            System.out.println("Clic en el producto: " + producto.getNombre()); // Verifica que el clic se detecte
+            logger.logInfo("Clic en el producto: " + producto.getNombre());
+            abrirProductoView(producto);
+        });
+
+        return productBox;
+    }
+    private void abrirProductoView(Producto producto) {
+        try {
+            if (producto == null) {
+                System.out.println("Error: El producto es nulo.");
+                return;
+            } else {
+                System.out.println("Producto recibido: " + producto.getNombre());
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProductoView.fxml"));
+            Parent root = loader.load();
+
+            ProductoViewController productoViewController = loader.getController();
+            productoViewController.setProducto(producto);
+
+            Stage currentStage = (Stage) chatButton.getScene().getWindow();
+            Scene currentScene = new Scene(root);
+            currentStage.setScene(currentScene);
+            currentStage.show();
+
+        } catch (IOException e) {
+            System.out.println("Error al cargar la vista FXML.");
+            e.printStackTrace();  // Imprimir el stack trace completo
+        }}
     private void crearProducto() throws IOException {
         logger.logInfo("El vendedor " + vendedor.getNombre() + " está intentando agregar un nuevo producto.");
         FXMLLoader loader;
@@ -178,35 +268,6 @@ public class PerfilController {
         Stage stage = (Stage) homeButton.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
-    }
-
-    private void cargarProductos() {
-        // Verifica si hay suficientes productos en la lista
-        if (vendedor.getListaProductos().size() >= 3) {
-            Producto producto1 = vendedor.getListaProductos().get(0);
-            Producto producto2 = vendedor.getListaProductos().get(1);
-            Producto producto3 = vendedor.getListaProductos().get(2);
-
-            // Producto 1
-            nameProduct1.setText(producto1.getNombre());
-            priceProduct1.setText("Precio: €" + producto1.getPrecio());
-            imageProduct1.setImage(new Image(getClass().getResourceAsStream(producto1.getImagen())));
-            logger.logInfo("Producto 1 cargado en el perfil: " + producto1.getNombre());
-
-            // Producto 2
-            nameProduct2.setText(producto2.getNombre());
-            priceProduct2.setText("Precio: €" + producto2.getPrecio());
-            imageProduct2.setImage(new Image(getClass().getResourceAsStream(producto2.getImagen())));
-            logger.logInfo("Producto 2 cargado en el perfil: " + producto2.getNombre());
-
-            // Producto 3
-            nameProduct3.setText(producto3.getNombre());
-            priceProduct3.setText("Precio: €" + producto3.getPrecio());
-            imageProduct3.setImage(new Image(getClass().getResourceAsStream(producto3.getImagen())));
-            logger.logInfo("Producto 3 cargado en el perfil: " + producto3.getNombre());
-        } else {
-            logger.logWarning("No hay suficientes productos para mostrar. Productos disponibles: " + vendedor.getListaProductos().size());
-        }
     }
 
     private void mostrarTopProductos() {
